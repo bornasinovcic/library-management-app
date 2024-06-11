@@ -1,6 +1,6 @@
 ﻿using LibraryManagementApp.Model;
 using Microsoft.EntityFrameworkCore;
-using Model;
+
 
 namespace LibraryManagementApp.DAL;
 
@@ -8,8 +8,12 @@ public class LibraryDbContext : DbContext
 {
 	public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options) { }
 
+	public DbSet<Book> Books { get; set; }
 	public DbSet<City> Cities { get; set; }
 	public DbSet<Genre> Genres { get; set; }
+	public DbSet<Author> Authors { get; set; }
+
+	public DbSet<AuthorBook> AuthorBooks { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -28,6 +32,21 @@ public class LibraryDbContext : DbContext
 			new Genre { Id = 11, Name = "History" },
 			new Genre { Id = 12, Name = "Crime and Thriller" }
 		);
+
+		// Configure composite key for AuthorBook
+		modelBuilder.Entity<AuthorBook>()
+			.HasKey(ab => new { ab.AuthorId, ab.BookId });
+
+		// Configure many-to-many relationship
+		modelBuilder.Entity<AuthorBook>()
+			.HasOne(ab => ab.Author)
+			.WithMany(a => a.AuthorBooks)
+			.HasForeignKey(ab => ab.AuthorId);
+
+		modelBuilder.Entity<AuthorBook>()
+			.HasOne(ab => ab.Book)
+			.WithMany(b => b.AuthorBooks)
+			.HasForeignKey(ab => ab.BookId);
 
 	}
 }

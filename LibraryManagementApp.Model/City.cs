@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Model;
+namespace LibraryManagementApp.Model;
 
 public class City
 {
