@@ -1,7 +1,16 @@
+using LibraryManagementApp.DAL;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<LibraryDbContext>(options =>
+	options.UseSqlServer(
+		builder.Configuration.GetConnectionString("LibraryDbContext"),
+			opt => opt.MigrationsAssembly("LibraryManagementApp.DAL")));
+
 
 var app = builder.Build();
 
