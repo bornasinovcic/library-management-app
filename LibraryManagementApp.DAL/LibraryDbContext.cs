@@ -33,8 +33,23 @@ public class LibraryDbContext : DbContext
 			new Genre { Id = 12, Name = "Crime and Thriller" }
 		);
 
-		// Configure composite key for AuthorBook
-		modelBuilder.Entity<AuthorBook>()
+        modelBuilder.Entity<City>().HasData(
+            new City { Id = 1, Name = "New York" },
+            new City { Id = 2, Name = "Los Angeles" },
+            new City { Id = 3, Name = "Chicago" },
+            new City { Id = 4, Name = "Houston" },
+            new City { Id = 5, Name = "Phoenix" },
+            new City { Id = 6, Name = "Philadelphia" },
+            new City { Id = 7, Name = "San Antonio" },
+            new City { Id = 8, Name = "San Diego" },
+            new City { Id = 9, Name = "Dallas" },
+            new City { Id = 10, Name = "San Jose" },
+            new City { Id = 11, Name = "Austin" },
+            new City { Id = 12, Name = "Jacksonville" }
+        );
+
+        // Configure composite key for AuthorBook
+        modelBuilder.Entity<AuthorBook>()
 			.HasKey(ab => new { ab.AuthorId, ab.BookId });
 
 		// Configure many-to-many relationship

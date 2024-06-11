@@ -1,0 +1,48 @@
+﻿@model LibraryManagementApp.Model.City
+
+@{
+	ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model != null)
+{
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a asp-action="Index">List of cities</a></li>
+			<li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+		</ol>
+	</nav>
+
+	<div>
+		<h4>City</h4>
+		<hr />
+		<dl class="dl-horizontal">
+			<dt>
+				Id
+			</dt>
+			<dd>
+				@Html.DisplayFor(model => model.Id)
+			</dd>
+			<dt>
+				Name
+			</dt>
+			<dd>
+				@Html.DisplayFor(model => model.Name)
+			</dd>
+		</dl>
+		<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+			<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Uredi</a>
+			<button type="submit" class="btn btn-danger">Delete</button>
+		</form>
+	</div>
+
+}
+else
+{
+	<div class="alert alert-danger">
+		City with that Id does not exist.
+	</div>
+
+}
