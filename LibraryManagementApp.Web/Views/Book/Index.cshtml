@@ -1,0 +1,36 @@
+﻿@using LibraryManagementApp.Model
+
+@model List<LibraryManagementApp.Model.Book>
+
+@{
+    ViewData["Title"] = "Books Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div style="margin-top: 20px; margin-bottom: 10px;">
+    <partial name="_BookFilter" model="new BookFilterModel()" />
+</div>
+
+<div id="table-container">
+    <partial name="_IndexTable" model="new List<Book>()" />
+</div>
+
+@section scripts {
+    <script>
+        function filterBooks() {
+            const formData = $("#tbl-books").serialize();
+            $.ajax({
+                url: "@Url.Action("IndexAjax")",
+                method: "POST",
+                data: formData,
+                success: (html) => {
+                    $("#table-container").html(html);
+                }
+            });
+        }
+        $(document).ready(() => filterBooks());
+    </script>
+}

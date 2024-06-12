@@ -1,0 +1,21 @@
+﻿@using LibraryManagementApp.Web.Models
+
+@model AuthorFilterModel
+
+<form id="tbl-authors">
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <input asp-for="FullName" class="form-control" type="text" placeholder="First Name" />
+        </div>
+        <div class="col-md-3">
+            <input asp-for="Email" class="form-control" type="text" placeholder="Email" />
+        </div>
+        <div class="col-md-3">
+            <input asp-for="City" class="form-control" type="text" placeholder="City" />
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-outline-info" onclick="filterAuthors()">Filter</button>
+            <a asp-action="Create" class="btn btn-success">New Author</a>
+        </div>
+    </div>
+</form>

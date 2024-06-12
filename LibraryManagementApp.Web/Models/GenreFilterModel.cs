@@ -1,7 +1,6 @@
-﻿namespace LibraryManagementApp.Web.Models
+﻿namespace LibraryManagementApp.Web.Models;
+
+public class GenreFilterModel
 {
-	public class GenreFilterModel
-	{
-		public string Name { get; set; } = String.Empty;
-	}
+	public string? Name { get; set; }
 }

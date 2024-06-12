@@ -1,0 +1,36 @@
+﻿@using LibraryManagementApp.Model
+
+@model List<LibraryManagementApp.Model.Author>
+
+@{
+    ViewData["Title"] = "Authors Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div style="margin-top: 20px; margin-bottom: 10px;">
+    <partial name="_AuthorFilter" model="new AuthorFilterModel()" />
+</div>
+
+<div id="table-container">
+    <partial name="_IndexTable" model="new List<Author>()" />
+</div>
+
+@section scripts {
+    <script>
+        function filterAuthors() {
+            const formData = $("#tbl-authors").serialize();
+            $.ajax({
+                url: "@Url.Action("IndexAjax")",
+                method: "POST",
+                data: formData,
+                success: (html) => {
+                    $("#table-container").html(html);
+                }
+            });
+        }
+        $(document).ready(() => filterAuthors());
+    </script>
+}

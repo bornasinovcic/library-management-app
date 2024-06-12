@@ -10,6 +10,8 @@ public class Book
 	public string Description { get; set; } = string.Empty;
 
 	public DateTime PublishDate { get; set; }
-	public Genre? genre { get; set; }
+	
+	public int? GenreId { get; set; }
+	public Genre? BookGenre { get; set; }
 	public ICollection<AuthorBook>? AuthorBooks { get; set; }
 }

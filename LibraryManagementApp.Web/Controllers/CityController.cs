@@ -15,7 +15,7 @@ public class CityController : Controller
 	{
 		_libraryDbContext = libraryDbContext;
 	}
-	
+
 	[HttpGet]
 	public IActionResult Index() => View();
 

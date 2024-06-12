@@ -2,6 +2,6 @@
 
 public class CityFilterModel
 {
-	public string Name { get; set; } = String.Empty;
-	public string Country { get; set; } = String.Empty;
+	public string? Name { get; set; }
+	public string? Country { get; set; }
 }

@@ -4,6 +4,7 @@ using LibraryManagementApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementApp.DAL.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240612170756_AddedMail")]
+    partial class AddedMail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,15 +36,15 @@ namespace LibraryManagementApp.DAL.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -59,45 +62,45 @@ namespace LibraryManagementApp.DAL.Migrations
                         {
                             Id = 1,
                             DateOfBirth = new DateTime(1775, 12, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "jane@example.com",
                             FirstName = "Jane",
                             LastName = "Austen",
+                            Mail = "jane@example.com",
                             PlaceOfBirthId = 1
                         },
                         new
                         {
                             Id = 2,
                             DateOfBirth = new DateTime(1903, 6, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "george@example.com",
                             FirstName = "George",
                             LastName = "Orwell",
+                            Mail = "george@example.com",
                             PlaceOfBirthId = 2
                         },
                         new
                         {
                             Id = 3,
                             DateOfBirth = new DateTime(1890, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "agatha@example.com",
                             FirstName = "Agatha",
                             LastName = "Christie",
+                            Mail = "agatha@example.com",
                             PlaceOfBirthId = 3
                         },
                         new
                         {
                             Id = 4,
                             DateOfBirth = new DateTime(1947, 9, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "stephen@example.com",
                             FirstName = "Stephen",
                             LastName = "King",
+                            Mail = "stephen@example.com",
                             PlaceOfBirthId = 4
                         },
                         new
                         {
                             Id = 5,
                             DateOfBirth = new DateTime(1965, 7, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "jk@example.com",
                             FirstName = "J.K.",
                             LastName = "Rowling",
+                            Mail = "jk@example.com",
                             PlaceOfBirthId = 5
                         });
                 });
