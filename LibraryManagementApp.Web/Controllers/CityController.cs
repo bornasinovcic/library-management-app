@@ -19,25 +19,25 @@ public class CityController : Controller
 	[HttpGet]
 	public IActionResult Index() => View();
 
-	[HttpPost]
-	public IActionResult IndexAjax(CityFilterModel filter = null)
-	{
-		filter ??= new CityFilterModel();
+    [HttpPost]
+    public async Task<IActionResult> IndexAjax(CityFilterModel filter = null)
+    {
+        filter ??= new CityFilterModel();
 
-		var cityQuery = _libraryDbContext.Cities.AsQueryable();
+        var cityQuery = _libraryDbContext.Cities.AsQueryable();
 
-		// Add filtering conditions
-		if (!string.IsNullOrWhiteSpace(filter.Name))
-			cityQuery = cityQuery.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
+        // Add filtering conditions
+        if (!string.IsNullOrWhiteSpace(filter.Name))
+            cityQuery = cityQuery.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
 
-		if (!string.IsNullOrWhiteSpace(filter.Country))
-			cityQuery = cityQuery.Where(c => c.Country.ToLower().Contains(filter.Country.ToLower()));
+        if (!string.IsNullOrWhiteSpace(filter.Country))
+            cityQuery = cityQuery.Where(c => c.Country.ToLower().Contains(filter.Country.ToLower()));
 
-		var model = cityQuery.ToList();
-		return PartialView("_IndexTable", model);
-	}
+        var model = await cityQuery.ToListAsync();
+        return PartialView("_IndexTable", model);
+    }
 
-	[HttpGet]
+    [HttpGet]
 	public IActionResult Create() => View();
 
 	[HttpPost]

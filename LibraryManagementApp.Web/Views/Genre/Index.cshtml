@@ -1,0 +1,37 @@
+﻿@using LibraryManagementApp.Model
+@using LibraryManagementApp.Web.Models
+
+@model List<Genre>
+
+@{
+    ViewData["Title"] = "Genres Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div style="margin-top: 20px; margin-bottom: 10px;">
+    <partial name="_GenreFilter" model="new GenreFilterModel()" />
+</div>
+
+<div id="table-container">
+    <partial name="_IndexTable" model="new List<Genre>()" />
+</div>
+
+@section scripts {
+    <script>
+        function filterGenres() {
+            const formData = $("#genre-filter-form").serialize();
+            $.ajax({
+                url: "@Url.Action("IndexAjax")",
+                method: "POST",
+                data: formData,
+                success: function (html) {
+                    $("#table-container").html(html);
+                }
+            });
+        }
+        $(document).ready(filterGenres);
+    </script>
+}

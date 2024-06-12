@@ -1,0 +1,47 @@
+﻿@model LibraryManagementApp.Model.Genre
+
+@{
+    ViewData["Title"] = "Genre Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model != null)
+{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">List of Genres</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div>
+        <h4>Genre</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Id
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt>
+                Name
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <!-- Add more fields as needed -->
+        </dl>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        Genre with that Id does not exist.
+    </div>
+}

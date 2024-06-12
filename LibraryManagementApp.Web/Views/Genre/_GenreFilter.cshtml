@@ -1,0 +1,16 @@
+﻿@using LibraryManagementApp.Web.Models
+
+@model GenreFilterModel
+
+<form id="genre-filter-form">
+    <div class="row">
+        <div class="col">
+            <input asp-for="Name" class="form-control" type="text" placeholder="Genre Name" />
+        </div>
+        <!-- Add more filter fields as needed -->
+        <div class="col">
+            <button type="button" class="btn btn-outline-info" onclick="filterGenres()">Filter</button>
+            <a asp-action="Create" class="btn btn-success">New Genre</a>
+        </div>
+    </div>
+</form>
