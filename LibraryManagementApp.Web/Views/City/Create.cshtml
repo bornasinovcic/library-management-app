@@ -1,7 +1,7 @@
 ﻿@model LibraryManagementApp.Model.City
 
 @{
-	ViewData["Title"] = "Edit city";
+	ViewData["Title"] = "Create city";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,14 +9,12 @@
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a asp-action="Index">List of cities</a></li>
-		<li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
 	</ol>
 </nav>
 
 <div class="row">
 	<div class="col-md-4">
-		<form asp-action="Edit">
-			<input type="hidden" asp-for="Id" />
+		<form asp-action="Create">
 			<div class="form-group">
 				<label class="control-label">Name</label>
 				<input asp-for="Name" class="form-control" />

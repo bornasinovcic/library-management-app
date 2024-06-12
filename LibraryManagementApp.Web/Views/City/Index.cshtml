@@ -1,4 +1,7 @@
-﻿@model List<LibraryManagementApp.Model.City>
+﻿@using LibraryManagementApp.Model
+
+@model List<LibraryManagementApp.Model.City>
+
 @{
 	ViewData["Title"] = "Cities Page";
 }
@@ -7,28 +10,28 @@
 	<h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
-<table style="margin-top: 20px;" class="table table-condensed">
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>Name</th>
-			<th>Action 1</th>
-			<th>Action 2</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>@item.Id</td>
-				<td><a asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
-				<td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a></td>
-				<td>
-					<form asp-action="Delete" asp-route-id="@item.Id" method="post">
-						<button type="submit" class="btn btn-danger">Delete</button>
-					</form>
-				</td>
-			</tr>
+<div style="margin-top: 20px; margin-bottom: 10px;">
+	<partial name="_CityFilter" model="new CityFilterModel()" />
+</div>
+
+<div id="table-container">
+	<partial name="_IndexTable" model="new List<City>()" />
+</div>
+
+@section scripts {
+	<script>
+		function filterClients() {
+			const formData = $("#tbl-clients").serialize();
+			$.ajax({
+				url: "@Url.Action("IndexAjax")",
+				method: "POST",
+				data: formData,
+				success: (html) => {
+					$("#table-container").html(html);
+					// $("#table-container").replaceWith(html);
+				},
+			})
 		}
-	</tbody>
-</table>
+		$(document).ready(() => filterClients());
+	</script>
+}

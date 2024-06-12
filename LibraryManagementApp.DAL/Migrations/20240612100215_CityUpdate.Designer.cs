@@ -4,6 +4,7 @@ using LibraryManagementApp.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementApp.DAL.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240612100215_CityUpdate")]
+    partial class CityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,10 +106,6 @@ namespace LibraryManagementApp.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,74 +118,62 @@ namespace LibraryManagementApp.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Country = "United States",
                             Name = "New York"
                         },
                         new
                         {
                             Id = 2,
-                            Country = "Canada",
-                            Name = "Toronto"
+                            Name = "Los Angeles"
                         },
                         new
                         {
                             Id = 3,
-                            Country = "United Kingdom",
-                            Name = "London"
+                            Name = "Chicago"
                         },
                         new
                         {
                             Id = 4,
-                            Country = "Australia",
-                            Name = "Sydney"
+                            Name = "Houston"
                         },
                         new
                         {
                             Id = 5,
-                            Country = "Germany",
-                            Name = "Berlin"
+                            Name = "Phoenix"
                         },
                         new
                         {
                             Id = 6,
-                            Country = "France",
-                            Name = "Paris"
+                            Name = "Philadelphia"
                         },
                         new
                         {
                             Id = 7,
-                            Country = "Italy",
-                            Name = "Rome"
+                            Name = "San Antonio"
                         },
                         new
                         {
                             Id = 8,
-                            Country = "Spain",
-                            Name = "Madrid"
+                            Name = "San Diego"
                         },
                         new
                         {
                             Id = 9,
-                            Country = "Brazil",
-                            Name = "Rio de Janeiro"
+                            Name = "Dallas"
                         },
                         new
                         {
                             Id = 10,
-                            Country = "India",
-                            Name = "Mumbai"
+                            Name = "San Jose"
                         },
                         new
                         {
                             Id = 11,
-                            Country = "Japan",
-                            Name = "Tokyo"
+                            Name = "Austin"
                         },
                         new
                         {
                             Id = 12,
-                            Country = "China",
-                            Name = "Beijing"
+                            Name = "Jacksonville"
                         });
                 });
 

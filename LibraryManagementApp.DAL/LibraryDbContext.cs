@@ -33,23 +33,23 @@ public class LibraryDbContext : DbContext
 			new Genre { Id = 12, Name = "Crime and Thriller" }
 		);
 
-        modelBuilder.Entity<City>().HasData(
-            new City { Id = 1, Name = "New York" },
-            new City { Id = 2, Name = "Los Angeles" },
-            new City { Id = 3, Name = "Chicago" },
-            new City { Id = 4, Name = "Houston" },
-            new City { Id = 5, Name = "Phoenix" },
-            new City { Id = 6, Name = "Philadelphia" },
-            new City { Id = 7, Name = "San Antonio" },
-            new City { Id = 8, Name = "San Diego" },
-            new City { Id = 9, Name = "Dallas" },
-            new City { Id = 10, Name = "San Jose" },
-            new City { Id = 11, Name = "Austin" },
-            new City { Id = 12, Name = "Jacksonville" }
-        );
+		modelBuilder.Entity<City>().HasData(
+			new City { Id = 1, Name = "New York", Country = "United States" },
+			new City { Id = 2, Name = "Toronto", Country = "Canada" },
+			new City { Id = 3, Name = "London", Country = "United Kingdom" },
+			new City { Id = 4, Name = "Sydney", Country = "Australia" },
+			new City { Id = 5, Name = "Berlin", Country = "Germany" },
+			new City { Id = 6, Name = "Paris", Country = "France" },
+			new City { Id = 7, Name = "Rome", Country = "Italy" },
+			new City { Id = 8, Name = "Madrid", Country = "Spain" },
+			new City { Id = 9, Name = "Rio de Janeiro", Country = "Brazil" },
+			new City { Id = 10, Name = "Mumbai", Country = "India" },
+			new City { Id = 11, Name = "Tokyo", Country = "Japan" },
+			new City { Id = 12, Name = "Beijing", Country = "China" }
+		);
 
-        // Configure composite key for AuthorBook
-        modelBuilder.Entity<AuthorBook>()
+		// Configure composite key for AuthorBook
+		modelBuilder.Entity<AuthorBook>()
 			.HasKey(ab => new { ab.AuthorId, ab.BookId });
 
 		// Configure many-to-many relationship

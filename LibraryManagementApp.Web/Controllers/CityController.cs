@@ -1,5 +1,7 @@
 ﻿using LibraryManagementApp.DAL;
 using LibraryManagementApp.Model;
+using LibraryManagementApp.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +15,47 @@ public class CityController : Controller
 	{
 		_libraryDbContext = libraryDbContext;
 	}
+	
 	[HttpGet]
-	public async Task<IActionResult> Index()
+	public IActionResult Index() => View();
+
+	[HttpPost]
+	public IActionResult IndexAjax(CityFilterModel filter = null)
 	{
-		var cities = await _libraryDbContext
-			.Cities
-			.ToListAsync();
-		return View(cities);
+		filter ??= new CityFilterModel();
+
+		var cityQuery = _libraryDbContext.Cities.AsQueryable();
+
+		// Add filtering conditions
+		if (!string.IsNullOrWhiteSpace(filter.Name))
+			cityQuery = cityQuery.Where(c => c.Name.ToLower().Contains(filter.Name.ToLower()));
+
+		if (!string.IsNullOrWhiteSpace(filter.Country))
+			cityQuery = cityQuery.Where(c => c.Country.ToLower().Contains(filter.Country.ToLower()));
+
+		var model = cityQuery.ToList();
+		return PartialView("_IndexTable", model);
+	}
+
+	[HttpGet]
+	public IActionResult Create() => View();
+
+	[HttpPost]
+	public async Task<IActionResult> Create(City model)
+	{
+		if (ModelState.IsValid)
+		{
+			var newCity = new City
+			{
+				Name = model.Name,
+				Country = model.Country
+			};
+
+			_libraryDbContext.Cities.Add(newCity);
+			await _libraryDbContext.SaveChangesAsync();
+			return RedirectToAction("Index");
+		}
+		return View(model);
 	}
 
 	[HttpGet]
@@ -37,8 +73,10 @@ public class CityController : Controller
 		return View(city);
 	}
 
-	[HttpPost, ActionName("Edit")]
-	public async Task<IActionResult> EditCity(City model)
+	//[HttpPost, ActionName("Edit")]
+	//public async Task<IActionResult> EditCity(City model)
+	[HttpPost]
+	public async Task<IActionResult> Edit(City model)
 	{
 		if (ModelState.IsValid)
 		{
@@ -47,6 +85,7 @@ public class CityController : Controller
 			if (existingCity != null)
 			{
 				existingCity.Name = model.Name;
+				existingCity.Country = model.Country;
 				await _libraryDbContext.SaveChangesAsync();
 				return RedirectToAction("Index");
 			}

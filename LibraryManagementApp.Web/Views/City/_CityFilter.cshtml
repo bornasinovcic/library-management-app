@@ -1,0 +1,18 @@
+﻿@using LibraryManagementApp.Web.Models
+
+@model CityFilterModel
+
+<form id="tbl-clients">
+	<div class="row">
+		<div class="col">
+			<input asp-for="Name" class="form-control" type="text" placeholder="City Name" />
+		</div>
+		<div class="col">
+			<input asp-for="Country" class="form-control" type="text" placeholder="Country" />
+		</div>
+		<div class="col">
+			<button type="button" class="btn btn-outline-info" onclick="filterClients()">Filter</button>
+			<a asp-action="Create" class="btn btn-success">New City</a>
+		</div>
+	</div>
+</form>
