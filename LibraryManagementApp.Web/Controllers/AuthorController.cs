@@ -43,6 +43,7 @@ public class AuthorController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        FillBooksDropdownValues();
         FillDropdownValues();
         return View();
     }
@@ -56,6 +57,7 @@ public class AuthorController : Controller
             await _libraryDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        FillBooksDropdownValues();
         FillDropdownValues();
         return View(author);
     }
@@ -68,6 +70,7 @@ public class AuthorController : Controller
         {
             return NotFound();
         }
+        FillBooksDropdownValues();
         FillDropdownValues();
         return View(author);
     }
@@ -81,6 +84,7 @@ public class AuthorController : Controller
             await _libraryDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        FillBooksDropdownValues();
         FillDropdownValues();
         return View(author);
     }
@@ -118,7 +122,7 @@ public class AuthorController : Controller
         var selectItems = new List<SelectListItem>();
 
         var listItem = new SelectListItem();
-        listItem.Text = "- odaberite -";
+        listItem.Text = "- choose -";
         listItem.Value = "";
         selectItems.Add(listItem);
 
@@ -129,5 +133,19 @@ public class AuthorController : Controller
         }
 
         ViewBag.PossibleCities = selectItems;
+    }
+
+    private void FillBooksDropdownValues()
+    {
+        var selectItems = new List<SelectListItem>();
+
+
+        foreach (var category in _libraryDbContext.Books)
+        {
+            var listItem = new SelectListItem(category.Title, category.Id.ToString());
+            selectItems.Add(listItem);
+        }
+
+        ViewBag.AllBooks = selectItems;
     }
 }

@@ -104,7 +104,7 @@ public class BookController : Controller
         var selectItems = new List<SelectListItem>();
 
         var listItem = new SelectListItem();
-        listItem.Text = "- odaberite -";
+        listItem.Text = "- choose -";
         listItem.Value = "";
         selectItems.Add(listItem);
 
