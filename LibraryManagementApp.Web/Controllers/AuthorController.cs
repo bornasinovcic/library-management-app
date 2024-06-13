@@ -4,7 +4,6 @@ using LibraryManagementApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace LibraryManagementApp.Web.Controllers;
 
@@ -91,6 +90,8 @@ public class AuthorController : Controller
     {
         var author = await _libraryDbContext.Authors
             .Include(a => a.PlaceOfBirth)
+            .Include(a => a.AuthorBooks)
+            .ThenInclude(ab => ab.Book)
             .FirstOrDefaultAsync(a => a.Id == id);
 
         if (author == null)
@@ -111,12 +112,11 @@ public class AuthorController : Controller
         }
         return RedirectToAction(nameof(Index));
     }
-    
+
     private void FillDropdownValues()
     {
         var selectItems = new List<SelectListItem>();
 
-        //Polje je opcionalno
         var listItem = new SelectListItem();
         listItem.Text = "- odaberite -";
         listItem.Value = "";

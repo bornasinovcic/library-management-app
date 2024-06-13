@@ -1,15 +1,15 @@
-﻿@model LibraryManagementApp.Model.Author
+﻿@model LibraryManagementApp.Model.Book
 
 @{
-    ViewData["Title"] = "Edit author";
+    ViewData["Title"] = "Edit book";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-action="Index">List of authors</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Model.FullName</li>
+        <li class="breadcrumb-item"><a asp-action="Index">List of books</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
     </ol>
 </nav>
 
@@ -18,29 +18,24 @@
         <form asp-action="Edit">
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label class="control-label">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <label class="control-label">Title</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <label class="control-label">Description</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Mail</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label class="control-label">Publish Date</label>
+                <input asp-for="PublishDate" class="form-control" type="date" />
+                <span asp-validation-for="PublishDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Date of Birth</label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Grad</label>
-                <select asp-for="PlaceOfBirthId" asp-items="ViewBag.PossibleCities" class="form-control"></select>
-                <span asp-validation-for="PlaceOfBirthId" class="text-danger"></span>
+                <label class="control-label">Genre</label>
+                <select asp-for="GenreId" asp-items="ViewBag.PossibleGenres" class="form-control"></select>
+                <span asp-validation-for="GenreId" class="text-danger"></span>
             </div>
             <!-- Additional fields can be added here if needed -->
             <div class="form-group">

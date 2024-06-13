@@ -64,7 +64,11 @@
                     {
                         @foreach (var authorBook in Model.AuthorBooks)
                         {
-                            <li>@authorBook.Book.Title</li>
+                            <li>
+                                <a asp-action="Details" asp-controller="Book" asp-route-id="@authorBook.Book.Id">
+                                    @authorBook.Book.Title
+                                </a>
+                            </li>
                         }
                     }
                     else

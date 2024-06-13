@@ -1,7 +1,7 @@
-﻿@model LibraryManagementApp.Model.Author
+﻿@model LibraryManagementApp.Model.Book
 
 @{
-    ViewData["Title"] = "Author details";
+    ViewData["Title"] = "Book details";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,13 +10,13 @@
 {
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="Index">List of authors</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.FullName</li>
+            <li class="breadcrumb-item"><a asp-action="Index">List of books</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
         </ol>
     </nav>
 
     <div>
-        <h4>Author</h4>
+        <h4>Book</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
@@ -26,37 +26,31 @@
                 @Html.DisplayFor(model => model.Id)
             </dd>
             <dt>
-                First Name
+                Title
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.FirstName)
+                @Html.DisplayFor(model => model.Title)
             </dd>
             <dt>
-                Last Name
+                Description
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.LastName)
+                @Html.DisplayFor(model => model.Description)
             </dd>
             <dt>
-                Email
+                Publish Date
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Email)
+                @Html.DisplayFor(model => model.PublishDate)
             </dd>
             <dt>
-                Date of Birth
+                Genre
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.DateOfBirth)
+                @Model?.BookGenre?.Name
             </dd>
             <dt>
-                City
-            </dt>
-            <dd>
-                @Model?.PlaceOfBirth?.Name
-            </dd>
-            <dt>
-                Books
+                Authors
             </dt>
             <dd>
                 <ul>
@@ -64,12 +58,16 @@
                     {
                         @foreach (var authorBook in Model.AuthorBooks)
                         {
-                            <li>@authorBook.Book.Title</li>
+                            <li>
+                                <a asp-action="Details" asp-controller="Author" asp-route-id="@authorBook.Author.Id">
+                                    @authorBook.Author.FullName
+                                </a>
+                            </li>
                         }
                     }
                     else
                     {
-                        <li>No books found</li>
+                        <li>No authors found</li>
                     }
                 </ul>
             </dd>
@@ -85,6 +83,6 @@
 else
 {
     <div class="alert alert-danger">
-        Author with that Id does not exist.
+        Book with that Id does not exist.
     </div>
 }
