@@ -1,0 +1,41 @@
+﻿@model LibraryManagementApp.Model.Book
+
+@{
+    ViewData["Title"] = "Create book";
+    ViewData["SubmitButtonText"] = "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">List of books</a></li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            @await Html.PartialAsync("_BookForm")
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var selectedAuthors = [];
+
+            // Store selected books in an array
+            $('select[multiple]').on('change', function () {
+                selectedAuthors = $(this).val() || [];
+            });
+
+            // Submit selected books along with the form
+            $('form').submit(function () {
+                var form = $(this);
+                form.find('select[multiple]').val(selectedAuthors);
+            });
+        });
+    </script>
+}

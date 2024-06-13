@@ -110,11 +110,9 @@ public class AuthorController : Controller
         {
             try
             {
-                // Update the author in the database
                 _libraryDbContext.Update(author);
                 await _libraryDbContext.SaveChangesAsync();
 
-                // Update author books
                 var existingAuthorBooks = _libraryDbContext.AuthorBooks.Where(ab => ab.AuthorId == author.Id).ToList();
                 _libraryDbContext.AuthorBooks.RemoveRange(existingAuthorBooks);
                 await _libraryDbContext.SaveChangesAsync();

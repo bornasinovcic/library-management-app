@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit book";
+    ViewData["SubmitButtonText"] = "Save edit";
+    var selectedAuthorIds = Model.AuthorBooks?.Select(ab => ab.AuthorId).ToList() ?? new List<int>();
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -17,30 +19,36 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label class="control-label">Title</label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Description</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Publish Date</label>
-                <input asp-for="PublishDate" class="form-control" type="date" />
-                <span asp-validation-for="PublishDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Genre</label>
-                <select asp-for="GenreId" asp-items="ViewBag.PossibleGenres" class="form-control"></select>
-                <span asp-validation-for="GenreId" class="text-danger"></span>
-            </div>
-            <!-- Additional fields can be added here if needed -->
-            <div class="form-group">
-                <input type="submit" value="Save edit" class="btn btn-outline-success mt-2" />
-            </div>
+            @await Html.PartialAsync("_BookForm")
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize selected books from the model
+            var selectedAuthors = @Html.Raw(Json.Serialize(selectedAuthorIds));
+
+            // Set selected books in the select element
+            $('select[multiple]').val(selectedAuthors);
+
+            // Store selected books in an array on change
+            $('select[multiple]').on('change', function () {
+                selectedAuthors = $(this).val() || [];
+            });
+
+            // Ensure selected books are submitted with the form
+            $('form').submit(function () {
+                var form = $(this);
+                var authorInputs = '';
+
+                for (var i = 0; i < selectedAuthors.length; i++) {
+                    authorInputs += '<input type="hidden" name="selectedAuthors" value="' + selectedAuthors[i] + '" />';
+                }
+
+                form.append(authorInputs);
+            });
+        });
+    </script>
+}
