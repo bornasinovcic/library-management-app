@@ -1,0 +1,293 @@
+{
+	"info": {
+		"_postman_id": "0318b0f9-a54a-425b-98ed-54ef54e9be9e",
+		"name": "LIBRARY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35036941"
+	},
+	"item": [
+		{
+			"name": "Get()",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/author",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get(int id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/author/{{authorId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"{{authorId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post()",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const genders = [\"M\", \"F\"];\r",
+							"const randomGender = genders[Math.floor(Math.random() * genders.length)];\r",
+							"pm.environment.set(\"randomGender\", randomGender);\r",
+							"\r",
+							"const cityID = Math.floor(Math.random() * 10) + 1;\r",
+							"pm.environment.set(\"cityID\", cityID);\r",
+							"\r",
+							"function getRandomDate(start, end) {\r",
+							"    const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));\r",
+							"    const year = date.getFullYear();\r",
+							"    const month = ('0' + (date.getMonth() + 1)).slice(-2);\r",
+							"    const day = ('0' + date.getDate()).slice(-2);\r",
+							"    const hours = ('0' + date.getHours()).slice(-2);\r",
+							"    const minutes = ('0' + date.getMinutes()).slice(-2);\r",
+							"    const seconds = ('0' + date.getSeconds()).slice(-2);\r",
+							"    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;\r",
+							"}\r",
+							"\r",
+							"const today = new Date();\r",
+							"const startDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());\r",
+							"const endDate = today;\r",
+							"\r",
+							"const randomDate = getRandomDate(startDate, endDate);\r",
+							"pm.environment.set(\"randomDateTime\", randomDate);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Store client ID\", function () {\r",
+							"    var response = pm.response.json();\r",
+							"    pm.environment.set(\"authorId\", response.id);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"{{$randomFirstName}}\",\r\n    \"LastName\": \"{{$randomLastName}}\",\r\n    \"Gender\": \"{{randomGender}}\",\r\n    \"Email\": \"{{$randomEmail}}\",\r\n    \"DateOfBirth\": \"{{randomDateTime}}\",\r\n    \"PlaceOfBirthId\": \"{{cityID}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/author",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put(int id)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const genders = [\"M\", \"F\"];\r",
+							"const randomGender = genders[Math.floor(Math.random() * genders.length)];\r",
+							"pm.environment.set(\"randomGender\", randomGender);\r",
+							"\r",
+							"const cityID = Math.floor(Math.random() * 10) + 1;\r",
+							"pm.environment.set(\"cityID\", cityID);\r",
+							"\r",
+							"function getRandomDate(start, end) {\r",
+							"    const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));\r",
+							"    const year = date.getFullYear();\r",
+							"    const month = ('0' + (date.getMonth() + 1)).slice(-2);\r",
+							"    const day = ('0' + date.getDate()).slice(-2);\r",
+							"    const hours = ('0' + date.getHours()).slice(-2);\r",
+							"    const minutes = ('0' + date.getMinutes()).slice(-2);\r",
+							"    const seconds = ('0' + date.getSeconds()).slice(-2);\r",
+							"    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;\r",
+							"}\r",
+							"\r",
+							"const today = new Date();\r",
+							"const startDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());\r",
+							"const endDate = today;\r",
+							"\r",
+							"const randomDate = getRandomDate(startDate, endDate);\r",
+							"pm.environment.set(\"randomDateTime\", randomDate);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": \"{{authorId}}\",\r\n    \"FirstName\": \"{{$randomFirstName}}\",\r\n    \"LastName\": \"{{$randomLastName}}\",\r\n    \"Gender\": \"{{randomGender}}\",\r\n    \"Email\": \"{{$randomEmail}}\",\r\n    \"DateOfBirth\": \"{{randomDateTime}}\",\r\n    \"PlaceOfBirthId\": \"{{cityID}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/author/{{authorId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"{{authorId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete(int id)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Author deleted successfully.\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/author/{{authorId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"{{authorId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://localhost:7065",
+			"type": "string"
+		}
+	]
+}
