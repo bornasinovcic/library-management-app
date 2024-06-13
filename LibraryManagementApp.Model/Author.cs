@@ -8,11 +8,12 @@ public class Author
 	public int Id { get; set; }
 	public string FirstName { get; set; } = string.Empty;
 	public string LastName { get; set; } = string.Empty;
-	public string Email { get; set; } = string.Empty;
 	public string FullName => $"{FirstName} {LastName}";
+    public char Gender { get; set; }
+    public string Email { get; set; } = string.Empty;
 	public DateTime DateOfBirth { get; set; }
 
-    public int? PlaceOfBirthId { get; set; } // Foreign key property
+    public int? PlaceOfBirthId { get; set; }
     public City? PlaceOfBirth { get; set; }
     public ICollection<AuthorBook>? AuthorBooks { get; set; }
 }
