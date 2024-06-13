@@ -49,23 +49,45 @@ public class AuthorController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Author author)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(Author author, int[] AuthorBooks)
     {
         if (ModelState.IsValid)
         {
+            // Create new author and save to the database
             _libraryDbContext.Authors.Add(author);
             await _libraryDbContext.SaveChangesAsync();
+
+            // Add selected books to the author
+            foreach (var bookId in AuthorBooks)
+            {
+                var authorBook = new AuthorBook
+                {
+                    AuthorId = author.Id,
+                    BookId = bookId
+                };
+                _libraryDbContext.AuthorBooks.Add(authorBook);
+            }
+            await _libraryDbContext.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+
+        // Repopulate ViewBag if ModelState is not valid
         FillBooksDropdownValues();
         FillDropdownValues();
+
         return View(author);
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var author = await _libraryDbContext.Authors.FindAsync(id);
+        var author = await _libraryDbContext.Authors
+            .Include(a => a.AuthorBooks)
+            .ThenInclude(ab => ab.Book)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
         if (author == null)
         {
             return NotFound();
@@ -76,17 +98,63 @@ public class AuthorController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(Author author)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, Author author, int[] SelectedBooks)
     {
+        if (id != author.Id)
+        {
+            return NotFound();
+        }
+
         if (ModelState.IsValid)
         {
-            _libraryDbContext.Update(author);
-            await _libraryDbContext.SaveChangesAsync();
+            try
+            {
+                // Update the author in the database
+                _libraryDbContext.Update(author);
+                await _libraryDbContext.SaveChangesAsync();
+
+                // Update author books
+                var existingAuthorBooks = _libraryDbContext.AuthorBooks.Where(ab => ab.AuthorId == author.Id).ToList();
+                _libraryDbContext.AuthorBooks.RemoveRange(existingAuthorBooks);
+                await _libraryDbContext.SaveChangesAsync();
+
+                foreach (var bookId in SelectedBooks)
+                {
+                    var authorBook = new AuthorBook
+                    {
+                        AuthorId = author.Id,
+                        BookId = bookId
+                    };
+                    _libraryDbContext.AuthorBooks.Add(authorBook);
+                }
+                await _libraryDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AuthorExists(author.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
+
+        // Repopulate ViewBag if ModelState is not valid
         FillBooksDropdownValues();
         FillDropdownValues();
+
+
         return View(author);
+    }
+
+    private bool AuthorExists(int id)
+    {
+        return _libraryDbContext.Authors.Any(e => e.Id == id);
     }
 
     [HttpGet]

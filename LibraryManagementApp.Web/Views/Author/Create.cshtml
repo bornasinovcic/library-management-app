@@ -1,8 +1,7 @@
 ﻿@model LibraryManagementApp.Model.Author
 
 @{
-    ViewData["Title"] = "Edit author";
-    var selectedBookIds = Model.AuthorBooks?.Select(ab => ab.BookId).ToList() ?? new List<int>();
+    ViewData["Title"] = "Create author";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,14 +9,12 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-action="Index">List of authors</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Model.FullName</li>
     </ol>
 </nav>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <input type="hidden" asp-for="Id" />
+        <form asp-action="Create">
             <div class="form-group">
                 <label class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
@@ -49,7 +46,7 @@
                 <span asp-validation-for="AuthorBooks" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save edit" class="btn btn-outline-success mt-2" />
+                <input type="submit" value="Create" class="btn btn-outline-success mt-2" />
             </div>
         </form>
     </div>
@@ -58,27 +55,17 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Initialize selected books from the model
-            var selectedBooks = @Html.Raw(Json.Serialize(selectedBookIds));
+            var selectedBooks = [];
 
-            // Set selected books in the select element
-            $('select[multiple]').val(selectedBooks);
-
-            // Store selected books in an array on change
+            // Store selected books in an array
             $('select[multiple]').on('change', function () {
                 selectedBooks = $(this).val() || [];
             });
 
-            // Ensure selected books are submitted with the form
+            // Submit selected books along with the form
             $('form').submit(function () {
                 var form = $(this);
-                var bookInputs = '';
-
-                for (var i = 0; i < selectedBooks.length; i++) {
-                    bookInputs += '<input type="hidden" name="SelectedBooks" value="' + selectedBooks[i] + '" />';
-                }
-
-                form.append(bookInputs);
+                form.find('select[multiple]').val(selectedBooks);
             });
         });
     </script>
