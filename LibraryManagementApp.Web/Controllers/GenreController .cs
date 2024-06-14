@@ -35,7 +35,7 @@ public class GenreController : Controller
     }
 
 
-    [HttpGet("Type/add")]
+    [HttpGet]
     public IActionResult Create() => View();
 
     [HttpPost]
@@ -101,7 +101,7 @@ public class GenreController : Controller
         return RedirectToAction("Index");
     }
 
-    [HttpGet]
+    [HttpGet("Type/Details")]
     public async Task<IActionResult> Details(int? id = null)
     {
         Genre model = null;

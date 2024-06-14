@@ -41,7 +41,7 @@ public class BookController : Controller
         return PartialView("_IndexTable", model);
     }
 
-    [HttpGet("Pages/add")]
+    [HttpGet]
     public IActionResult Create()
     {
         FillAuthorsDropdownValues();
@@ -164,7 +164,7 @@ public class BookController : Controller
     }
 
 
-    [HttpGet]
+    [HttpGet("Pages/Details")]
     public async Task<IActionResult> Details(int id)
     {
         var book = await _libraryDbContext.Books
