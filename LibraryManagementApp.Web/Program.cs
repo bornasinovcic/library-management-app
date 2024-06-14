@@ -30,7 +30,17 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+        name: "placeAdd",
+        pattern: "Place/Add",
+        defaults: new { controller = "City", action = "Create" });
+
+app.MapControllerRoute(
+        name: "writerAdd",
+        pattern: "Writer/Add",
+        defaults: new { controller = "Author", action = "Create" });
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

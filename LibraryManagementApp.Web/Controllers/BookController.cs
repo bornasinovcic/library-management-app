@@ -41,7 +41,7 @@ public class BookController : Controller
         return PartialView("_IndexTable", model);
     }
 
-    [HttpGet]
+    [HttpGet("Pages/add")]
     public IActionResult Create()
     {
         FillAuthorsDropdownValues();
