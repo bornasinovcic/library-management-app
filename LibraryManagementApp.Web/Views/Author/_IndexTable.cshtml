@@ -16,18 +16,42 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="authorRow_@item.Id">
                 <td>@item.Id</td>
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.FullName</a></td>
                 <td>@item.Email</td>
                 <td>@item.PlaceOfBirth?.Name</td>
                 <td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a></td>
                 <td>
-                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <button type="button" class="btn btn-danger" onclick="deleteAuthor(@item.Id)">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function deleteAuthor(id) {
+        $.ajax({
+            url: '@Url.Action("Delete", "Author")',
+            type: 'POST',
+            data: { id: id },
+            success: function (response) {
+                if (response.success) {
+                    // alert("Author deleted successfully.");
+                    $('#authorRow_' + id).remove();
+
+                    // Check if current URL is not https://localhost:7065/Author, then redirect
+                    if (window.location.href.indexOf("https://localhost:7065/Author") === -1) {
+                        window.location.href = "https://localhost:7065/Author";
+                    }
+                } else {
+                    alert("Failed to delete author.");
+                }
+            },
+            error: function () {
+                alert("Error occurred while trying to delete author.");
+            }
+        });
+    }
+</script>

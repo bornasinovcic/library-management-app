@@ -179,9 +179,11 @@ public class AuthorController : Controller
         {
             _libraryDbContext.Authors.Remove(author);
             await _libraryDbContext.SaveChangesAsync();
+            return Json(new { success = true });
         }
-        return RedirectToAction(nameof(Index));
+        return Json(new { success = false });
     }
+
 
     private void FillDropdownValues()
     {
