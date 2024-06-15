@@ -5,15 +5,15 @@ describe('Verify warnings for required parameters', () => {
   });
 
   function getRandomCapitalLetter() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-    const excludedLetters = ['M', 'F'];
-    const filteredLetters = letters.filter(letter => !excludedLetters.includes(letter));
-    const randomIndex = Math.floor(Math.random() * filteredLetters.length);
+    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    let excludedLetters = ['M', 'F'];
+    let filteredLetters = letters.filter(letter => !excludedLetters.includes(letter));
+    let randomIndex = Math.floor(Math.random() * filteredLetters.length);
     return filteredLetters[randomIndex];
   }
 
   it('Verify warning for required parameters in author creation', () => {
-    const randomLetter = getRandomCapitalLetter();
+    let randomLetter = getRandomCapitalLetter();
     cy.get('a.nav-link.text-dark[href="/Author"]').click();
     cy.get('a.btn.btn-success[href="/Writer/Add"]').click();
     cy.get('input[type="submit"][value="Create"].btn.btn-outline-success.mt-2').click();

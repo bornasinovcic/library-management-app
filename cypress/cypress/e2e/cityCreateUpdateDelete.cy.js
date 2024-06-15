@@ -1,4 +1,4 @@
-describe('Testing of genre create, update and delete functions', () => {
+describe('Testing of city create, update and delete function', () => {
 
     let _cityName = '';
     let _countryName = '';
@@ -11,9 +11,9 @@ describe('Testing of genre create, update and delete functions', () => {
         cy.get('a.nav-link.text-dark[href="/City"]').click();
         cy.get('a.btn.btn-success[href="/Place/Add"]').click();
 
-        const randomNumber = Math.floor(10000 + Math.random() * 90000);
-        const cityName = `City${randomNumber}`;
-        const countryName = `Country${randomNumber}`;
+        let randomNumber = Math.floor(10000 + Math.random() * 90000);
+        let cityName = `City${randomNumber}`;
+        let countryName = `Country${randomNumber}`;
 
         _cityName = cityName;
         _countryName = countryName;
@@ -51,9 +51,9 @@ describe('Testing of genre create, update and delete functions', () => {
             cy.get('a.btn.btn-primary').click();
         });
 
-        const randomNumber = Math.floor(10000 + Math.random() * 90000);
-        const cityName = `City${randomNumber}`;
-        const countryName = `Country${randomNumber}`;
+        let randomNumber = Math.floor(10000 + Math.random() * 90000);
+        let cityName = `City${randomNumber}`;
+        let countryName = `Country${randomNumber}`;
 
         _cityName = cityName;
         _countryName = countryName;
