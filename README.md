@@ -66,7 +66,10 @@ The application includes automated tests using Cypress to ensure functionality a
 
 To run the application locally or deploy it to a server, follow these steps:
 
-1. **Clone Repository**: Clone the repository from Git using `git clone https://github.com/bornasinovcic/library-management-app.git`.
+1. **Clone Repository**: Clone the repository from Git using
+    ```bash
+    git clone https://github.com/bornasinovcic/library-management-app.git
+    ```
 
 2. **Setup Database**: Configure the database connection string in [appsettings.json](LibraryManagementApp.Web/appsettings.json) and ensure Entity Framework migrations are applied.
 
