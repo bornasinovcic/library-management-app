@@ -12,3 +12,9 @@ dbcc checkident ('Clients', reseed, 0);
 
 npm install cypress --save-dev
 npx cypress open
+
+npm install cypress mochawesome --save-dev
+
+npm run test
+npm run test:report
+npm run test:open
