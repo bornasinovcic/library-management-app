@@ -24,7 +24,7 @@ The application incorporates the following features to ensure functionality and 
 
 4. **Menu Navigation**: Implements a navigational menu excluding standard pages like About and Contact.
 
-5. **Custom Routing**: Defines custom routes in [Program.cs](LibraryManagementApp.Web/Program.cs) for specific functionalities (e.g., `/companies/view`).
+5. **Custom Routing**: Defines custom routes in [Program.cs](LibraryManagementApp.Web/Program.cs) for specific functionalities (e.g., `/Place/Add`).
 
 6. **Attribute Routing**: Uses attribute-based routing for defining routes within controllers and actions.
 
@@ -68,7 +68,7 @@ To run the application locally or deploy it to a server, follow these steps:
 
 1. **Clone Repository**: Clone the repository from Git using `git clone https://github.com/bornasinovcic/library-management-app.git`.
 
-2. **Setup Database**: Configure the database connection string in `appsettings.json` and ensure Entity Framework migrations are applied.
+2. **Setup Database**: Configure the database connection string in [appsettings.json](LibraryManagementApp.Web/appsettings.json) and ensure Entity Framework migrations are applied.
 
 3. **Build and Run**: Build the solution in Visual Studio and run the application to ensure all dependencies are resolved.
 
