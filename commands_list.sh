@@ -9,3 +9,6 @@ NuGet\Install-Package Microsoft.EntityFrameworkCore.Design -Version 8.0.4
 NuGet\Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 8.0.4
 
 dbcc checkident ('Clients', reseed, 0);
+
+npm install cypress --save-dev
+npx cypress open
