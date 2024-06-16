@@ -21,7 +21,7 @@
 @section scripts {
     <script>
         function filterGenres() {
-            const formData = $("#genre-filter-form").serialize();
+            const formData = $("#tbl-genres").serialize();
             $.ajax({
                 url: "@Url.Action("IndexAjax")",
                 method: "POST",

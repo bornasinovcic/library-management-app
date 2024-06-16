@@ -398,3 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 cypress/mochawesome-report
+
+# JetBrains Rider configuration files
+.idea
