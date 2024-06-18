@@ -28,8 +28,14 @@
 			<dt>
 				Name
 			</dt>
-			<dd>
+			<dd id="name">
 				@Html.DisplayFor(model => model.Name)
+			</dd>
+			<dt>
+				Country
+			<dd>
+			<dd id="country">
+				@Html.DisplayFor(model => model.Country)
 			</dd>
 		</dl>
 		<form asp-action="Delete" asp-route-id="@Model.Id" method="post">

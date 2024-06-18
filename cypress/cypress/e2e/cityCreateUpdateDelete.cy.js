@@ -35,6 +35,23 @@ describe('Testing of city create, update and delete function', () => {
             .should('have.value', countryName);
 
         cy.get('input[type="submit"][value="Create"].btn.btn-outline-success.mt-2').click();
+
+        cy.get('input#Name')
+            .clear()
+            .type(_cityName)
+            .should('have.value', _cityName);
+        cy.get('input#Country')
+            .clear()
+            .type(_countryName)
+            .should('have.value', _countryName);
+
+        cy.get('button.btn.btn-outline-info').click();
+
+        cy.get('tr').contains(_cityName).click();
+
+        cy.get('dd#name').should('contain', _cityName);
+        cy.get('dd#country').should('contain', _countryName);
+
     });
 
     it('Update already existing city', () => {
@@ -76,6 +93,22 @@ describe('Testing of city create, update and delete function', () => {
 
         cy.get('input[type="submit"][value="Save edit"].btn.btn-outline-success.mt-2').click();
 
+        cy.get('input#Name')
+            .clear()
+            .type(_cityName)
+            .should('have.value', _cityName);
+        cy.get('input#Country')
+            .clear()
+            .type(_countryName)
+            .should('have.value', _countryName);
+
+        cy.get('button.btn.btn-outline-info').click();
+
+        cy.get('tr').contains(_cityName).click();
+
+        cy.get('dd#name').should('contain', _cityName);
+        cy.get('dd#country').should('contain', _countryName);
+
     });
 
     it('Delete already existing city', () => {
@@ -96,6 +129,18 @@ describe('Testing of city create, update and delete function', () => {
             cy.get('button.btn.btn-danger').click();
         });
 
+        cy.get('input#Name')
+            .clear()
+            .type(_cityName)
+            .should('have.value', _cityName);
+        cy.get('input#Country')
+            .clear()
+            .type(_countryName)
+            .should('have.value', _countryName);
+
+        cy.get('button.btn.btn-outline-info').click();
+
+        cy.get('.table.table-condensed tbody').find('tr').should('have.length', 0)
     });
 
 })

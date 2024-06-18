@@ -26,6 +26,18 @@ describe('Testing of genre create, update and delete function', () => {
             .should('have.value', genreName);
 
         cy.get('input[type="submit"][value="Create"].btn.btn-outline-success.mt-2').click();
+
+        cy.get('input#Name')
+            .clear()
+            .type(_genreName)
+            .should('have.value', _genreName);
+
+        cy.get('button.btn.btn-outline-info').click();
+
+        cy.get('tr').contains(_genreName).click();
+
+        cy.get('dd#name').should('contain', _genreName);
+
     });
 
     it('Update already existing genre', () => {
@@ -55,6 +67,17 @@ describe('Testing of genre create, update and delete function', () => {
 
         cy.get('input[type="submit"][value="Save edit"].btn.btn-outline-success.mt-2').click();
 
+        cy.get('input#Name')
+            .clear()
+            .type(_genreName)
+            .should('have.value', _genreName);
+
+        cy.get('button.btn.btn-outline-info').click();
+
+        cy.get('tr').contains(_genreName).click();
+
+        cy.get('dd#name').should('contain', _genreName);
+
     });
 
     it('Delete already existing genre', () => {
@@ -70,6 +93,15 @@ describe('Testing of genre create, update and delete function', () => {
         cy.contains('tr', _genreName).within(() => {
             cy.get('button.btn.btn-danger').click();
         });
+
+        cy.get('input#Name')
+            .clear()
+            .type(_genreName)
+            .should('have.value', _genreName);
+
+        cy.get('button.btn.btn-outline-info').click();
+
+        cy.get('.table.table-condensed tbody').find('tr').should('have.length', 0)
 
     });
 
