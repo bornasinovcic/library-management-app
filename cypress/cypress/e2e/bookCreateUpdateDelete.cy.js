@@ -37,8 +37,8 @@ describe('Testing of book create, update and delete function', () => {
             .should('have.value', bookPublishDate);
 
         cy.get('#GenreId').then($select => {
-            const optionsCount = $select.find('option').length;
-            const randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
+            let optionsCount = $select.find('option').length;
+            let randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
 
             cy.get('#GenreId').select($select.find('option').eq(randomIndex).val()).then(() => {
                 _bookGenre = $select.find('option').eq(randomIndex).text(); // Save the selected genre text
@@ -47,11 +47,11 @@ describe('Testing of book create, update and delete function', () => {
         });
 
         cy.get('#AuthorBooks').then($select => {
-            const optionsCount = $select.find('option').length + 1;
-            const numberOfSelections = getRandomInt(1, optionsCount); // Random number of selections
-            const randomIndexes = getRandomIndexes(numberOfSelections, optionsCount); // Get random indexes
+            let optionsCount = $select.find('option').length + 1;
+            let numberOfSelections = getRandomInt(1, optionsCount); // Random number of selections
+            let randomIndexes = getRandomIndexes(numberOfSelections, optionsCount); // Get random indexes
 
-            const selectedValues = randomIndexes.map(index => $select.find('option').eq(index).val());
+            let selectedValues = randomIndexes.map(index => $select.find('option').eq(index).val());
             cy.get('#AuthorBooks').select(selectedValues).then(() => {
                 _bookAuthors = randomIndexes.map(index => $select.find('option').eq(index).text()); // Save the selected authors text
                 cy.log('Selected authors:', _bookAuthors.join(', '));
@@ -115,8 +115,8 @@ describe('Testing of book create, update and delete function', () => {
             .should('have.value', bookPublishDate);
 
         cy.get('#GenreId').then($select => {
-            const optionsCount = $select.find('option').length;
-            const randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
+            let optionsCount = $select.find('option').length;
+            let randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
 
             cy.get('#GenreId').select($select.find('option').eq(randomIndex).val()).then(() => {
                 _bookGenre = $select.find('option').eq(randomIndex).text(); // Save the selected genre text
@@ -125,11 +125,11 @@ describe('Testing of book create, update and delete function', () => {
         });
 
         cy.get('#AuthorBooks').then($select => {
-            const optionsCount = $select.find('option').length + 1;
-            const numberOfSelections = getRandomInt(1, optionsCount); // Random number of selections
-            const randomIndexes = getRandomIndexes(numberOfSelections, optionsCount); // Get random indexes
+            let optionsCount = $select.find('option').length + 1;
+            let numberOfSelections = getRandomInt(1, optionsCount); // Random number of selections
+            let randomIndexes = getRandomIndexes(numberOfSelections, optionsCount); // Get random indexes
 
-            const selectedValues = randomIndexes.map(index => $select.find('option').eq(index).val());
+            let selectedValues = randomIndexes.map(index => $select.find('option').eq(index).val());
             cy.get('#AuthorBooks').select(selectedValues).then(() => {
                 _bookAuthors = randomIndexes.map(index => $select.find('option').eq(index).text()); // Save the selected authors text
                 cy.log('Selected authors:', _bookAuthors.join(', '));
@@ -181,14 +181,14 @@ describe('Testing of book create, update and delete function', () => {
 });
 
 function getRandomDate() {
-    const start = new Date(1900, 1, 1); // Start date
-    const end = new Date(); // End date (current date)
-    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    let start = new Date(1900, 1, 1); // Start date
+    let end = new Date(); // End date (current date)
+    let randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
     // Format the date as M/D/YYYY without leading zeros
-    const day = randomDate.getDate();
-    const month = randomDate.getMonth() + 1; // Months are 0-based in JavaScript
-    const year = randomDate.getFullYear();
+    let day = randomDate.getDate();
+    let month = randomDate.getMonth() + 1; // Months are 0-based in JavaScript
+    let year = randomDate.getFullYear();
 
     return `${month}/${day}/${year}`;
 }
@@ -198,7 +198,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomIndexes(count, max) {
-    const indexes = new Set();
+    let indexes = new Set();
     while (indexes.size < count) {
         indexes.add(getRandomInt(0, max - 1));
     }
