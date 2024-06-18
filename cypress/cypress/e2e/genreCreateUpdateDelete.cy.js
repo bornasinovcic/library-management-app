@@ -1,9 +1,13 @@
+/// <reference types="Cypress" />
+
+import { localhost_url } from "../fixtures/example.json";
+
 describe('Testing of genre create, update and delete function', () => {
 
     let _genreName = '';
 
     beforeEach(() => {
-        cy.visit('https://localhost:7065/');
+        cy.visit(localhost_url);
     });
 
     it('Create new genre', () => {

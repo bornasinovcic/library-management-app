@@ -1,3 +1,7 @@
+/// <reference types="Cypress" />
+
+import { localhost_url } from "../fixtures/example.json";
+
 describe('Testing of book create, update and delete function', () => {
 
     let _bookTitle = '';
@@ -7,7 +11,7 @@ describe('Testing of book create, update and delete function', () => {
     let _bookAuthors = [];
 
     beforeEach(() => {
-        cy.visit('https://localhost:7065/');
+        cy.visit(localhost_url);
     });
 
     it('Create new book', () => {
@@ -157,29 +161,46 @@ describe('Testing of book create, update and delete function', () => {
 
     });
 
-    function getRandomDate() {
-        const start = new Date(1900, 1, 1); // Start date
-        const end = new Date(); // End date (current date)
-        const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    it('Delete already existing book', () => {
 
-        // Format the date as M/D/YYYY without leading zeros
-        const day = randomDate.getDate();
-        const month = randomDate.getMonth() + 1; // Months are 0-based in JavaScript
-        const year = randomDate.getFullYear();
+        cy.get('a.nav-link.text-dark[href="/Book"]').click();
 
-        return `${month}/${day}/${year}`;
-    }
+        cy.get('input#Title')
+            .clear()
+            .type(_bookTitle)
+            .should('have.value', _bookTitle);
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
+        cy.get('button.btn.btn-outline-info').click();
 
-    function getRandomIndexes(count, max) {
-        const indexes = new Set();
-        while (indexes.size < count) {
-            indexes.add(getRandomInt(0, max - 1));
-        }
-        return Array.from(indexes);
-    }
+        cy.contains('tr', _bookTitle).within(() => {
+            cy.get('button.btn.btn-danger').click();
+        });
+
+    });
 
 });
+
+function getRandomDate() {
+    const start = new Date(1900, 1, 1); // Start date
+    const end = new Date(); // End date (current date)
+    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+
+    // Format the date as M/D/YYYY without leading zeros
+    const day = randomDate.getDate();
+    const month = randomDate.getMonth() + 1; // Months are 0-based in JavaScript
+    const year = randomDate.getFullYear();
+
+    return `${month}/${day}/${year}`;
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+function getRandomIndexes(count, max) {
+    const indexes = new Set();
+    while (indexes.size < count) {
+        indexes.add(getRandomInt(0, max - 1));
+    }
+    return Array.from(indexes);
+}
