@@ -181,7 +181,7 @@ describe('Testing of book create, update and delete function', () => {
 });
 
 function getRandomDate() {
-    let start = new Date(1900, 1, 1); // Start date
+    let start = new Date(1900, 1, 1); // Start date - change to -90 years
     let end = new Date(); // End date (current date)
     let randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
