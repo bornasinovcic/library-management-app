@@ -1,0 +1,4 @@
+[] -> make login/signup available
+[] -> write tests for author creation, update and deletion
+[] -> refactor cypress code
+[] -> bring back deletion in details

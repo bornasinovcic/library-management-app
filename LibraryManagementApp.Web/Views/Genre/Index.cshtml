@@ -26,11 +26,11 @@
                 url: "@Url.Action("IndexAjax")",
                 method: "POST",
                 data: formData,
-                success: function (html) {
+                success: (html) => {
                     $("#table-container").html(html);
                 }
             });
         }
-        $(document).ready(filterGenres);
+        $(document).ready(() => filterGenres());
     </script>
 }
