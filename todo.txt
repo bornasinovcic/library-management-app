@@ -1,5 +1,7 @@
-[] -> add angular to project
-[] -> bring back deletion in details
-[] -> make login/signup available
-[] -> refactor cypress code
-[] -> write tests for author creation, update and deletion
+undone:
+    [] -> add angular to project
+    [] -> bring back deletion in details
+    [] -> make login/signup available
+    [] -> refactor cypress code
+    [] -> write tests for author creation, update and deletion
+done:
