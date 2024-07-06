@@ -1,7 +1,9 @@
 undone:
     [] -> add angular to project
+    [] -> ajax deletion everywhere
     [] -> bring back deletion in details
     [] -> make login/signup available
+doing:
     [] -> refactor cypress code
-    [] -> write tests for author creation, update and deletion
 done:
+    [] -> write tests for author creation, update and deletion
