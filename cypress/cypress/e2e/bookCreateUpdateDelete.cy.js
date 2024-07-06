@@ -39,7 +39,6 @@ describe('Testing of book create, update and delete function', () => {
         cy.get('#GenreId').then($select => {
             let optionsCount = $select.find('option').length;
             let randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
-
             cy.get('#GenreId').select($select.find('option').eq(randomIndex).val()).then(() => {
                 _bookGenre = $select.find('option').eq(randomIndex).text(); // Save the selected genre text
                 cy.log('Selected genre:', _bookGenre);
@@ -117,7 +116,6 @@ describe('Testing of book create, update and delete function', () => {
         cy.get('#GenreId').then($select => {
             let optionsCount = $select.find('option').length;
             let randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
-
             cy.get('#GenreId').select($select.find('option').eq(randomIndex).val()).then(() => {
                 _bookGenre = $select.find('option').eq(randomIndex).text(); // Save the selected genre text
                 cy.log('Selected genre:', _bookGenre);
@@ -181,7 +179,8 @@ describe('Testing of book create, update and delete function', () => {
 });
 
 function getRandomDate() {
-    let start = new Date(1900, 1, 1); // Start date - change to -90 years
+    let start = new Date();
+    start.setFullYear(start.getFullYear() - 100); // Set start date to 100 years ago
     let end = new Date(); // End date (current date)
     let randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 

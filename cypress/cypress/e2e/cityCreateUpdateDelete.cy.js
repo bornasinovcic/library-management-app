@@ -4,6 +4,7 @@ import { localhost_url } from "../fixtures/example.json";
 
 describe('Testing of city create, update and delete function', () => {
 
+    let _randomNumber = "";
     let _cityName = '';
     let _countryName = '';
 
@@ -15,24 +16,18 @@ describe('Testing of city create, update and delete function', () => {
         cy.get('a.nav-link.text-dark[href="/City"]').click();
         cy.get('a.btn.btn-success[href="/Place/Add"]').click();
 
-        let randomNumber = Math.floor(10000 + Math.random() * 90000);
-        let cityName = `City${randomNumber}`;
-        let countryName = `Country${randomNumber}`;
-
-        _cityName = cityName;
-        _countryName = countryName;
-
-        cy.log(`The cityName saved is: ${cityName}`);
-        cy.log(`The countryName saved is: ${countryName}`);
+        _randomNumber = Math.floor(10000 + Math.random() * 90000);
+        _cityName = `City${randomNumber}`;
+        _countryName = `Country${randomNumber}`;
 
         cy.get('input#Name')
             .clear()
-            .type(cityName)
-            .should('have.value', cityName);
+            .type(_cityName)
+            .should('have.value', _cityName);
         cy.get('input#Country')
             .clear()
-            .type(countryName)
-            .should('have.value', countryName);
+            .type(_countryName)
+            .should('have.value', _countryName);
 
         cy.get('input[type="submit"][value="Create"].btn.btn-outline-success.mt-2').click();
 
@@ -72,24 +67,18 @@ describe('Testing of city create, update and delete function', () => {
             cy.get('a.btn.btn-primary').click();
         });
 
-        let randomNumber = Math.floor(10000 + Math.random() * 90000);
-        let cityName = `City${randomNumber}`;
-        let countryName = `Country${randomNumber}`;
-
-        _cityName = cityName;
-        _countryName = countryName;
-
-        cy.log(`The cityName saved is: ${cityName}`);
-        cy.log(`The countryName saved is: ${countryName}`);
+        _randomNumber = Math.floor(10000 + Math.random() * 90000);
+        _cityName = `City${randomNumber}`;
+        _countryName = `Country${randomNumber}`;
 
         cy.get('input#Name')
             .clear()
-            .type(cityName)
-            .should('have.value', cityName);
+            .type(_cityName)
+            .should('have.value', _cityName);
         cy.get('input#Country')
             .clear()
-            .type(countryName)
-            .should('have.value', countryName);
+            .type(_countryName)
+            .should('have.value', _countryName);
 
         cy.get('input[type="submit"][value="Save edit"].btn.btn-outline-success.mt-2').click();
 
