@@ -28,31 +28,31 @@
             <dt>
                 Title
             </dt>
-            <dd>
+            <dd id="title">
                 @Html.DisplayFor(model => model.Title)
             </dd>
             <dt>
                 Description
             </dt>
-            <dd>
+            <dd id="description">
                 @Html.DisplayFor(model => model.Description)
             </dd>
             <dt>
                 Publish Date
             </dt>
-            <dd>
+            <dd id="publishDate">
                 @Html.DisplayFor(model => model.PublishDate)
             </dd>
             <dt>
                 Genre
             </dt>
-            <dd>
+            <dd id="bookGenre">
                 @Model?.BookGenre?.Name
             </dd>
             <dt>
                 Authors
             </dt>
-            <dd>
+            <dd id="authors">
                 <ul>
                     @if (Model.AuthorBooks != null)
                     {

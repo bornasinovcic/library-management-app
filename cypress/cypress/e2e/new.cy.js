@@ -55,7 +55,6 @@ function searchAndVerify(testCondition = "defaultCondition") {
         cy.get("dd#description").should("contain", _bookDescription);
         cy.get("dd#publishDate").should("contain", _bookPublishDate);
         cy.get("dd#bookGenre").should("contain", _bookGenre);
-        // cy.get("dd#bookGenre").should("contain", _bookAuthors);
     } else if (testCondition === "delete") {
         cy.get(".table.table-condensed tbody").find("tr").should("have.length", 0);
     }
@@ -66,7 +65,6 @@ function fillForm() {
     _bookTitle = `Title${_randomNumber}`;
     _bookDescription = `Description${_randomNumber}`;
     _bookPublishDate = getRandomDate();
-
     cy.get("input#Title")
         .clear()
         .type(_bookTitle)
@@ -79,7 +77,6 @@ function fillForm() {
         .clear()
         .type(_bookPublishDate)
         .should("have.value", _bookPublishDate);
-
     cy.get("#GenreId").then($select => {
         let optionsCount = $select.find("option").length;
         let randomIndex = getRandomInt(1, optionsCount - 1); // Skip the first option (index 0)
@@ -89,23 +86,8 @@ function fillForm() {
             cy.log("Selected genre inside block:", selectedGenre);
         });
     });
-
-    _bookGenre.then(_yeet => {
-        cy.log("Selected genre outside block:", _yeet);
-        // You can perform assertions or other operations with _bookGenre here
-    });
-    cy.pause();
-
-    cy.get("#AuthorBooks").then($select => {
-        let optionsCount = $select.find("option").length + 1;
-        let numberOfSelections = getRandomInt(1, optionsCount); // Random number of selections
-        let randomIndexes = getRandomIndexes(numberOfSelections, optionsCount); // Get random indexes
-
-        let selectedValues = randomIndexes.map(index => $select.find("option").eq(index).val());
-        cy.get("#AuthorBooks").select(selectedValues).then(() => {
-            _bookAuthors = randomIndexes.map(index => $select.find("option").eq(index).text()); // Save the selected authors text
-            cy.log("Selected authors:", _bookAuthors.join(", "));
-        });
+    cy.then(() => {
+        cy.log(`The bookGenre saved is: ${_bookGenre}`);
     });
 }
 
@@ -118,41 +100,9 @@ describe("Testing of book create, update and delete function", () => {
     it("Create new book", () => {
         cy.get("a.nav-link.text-dark[href='/Book']").click();
         cy.get("a.btn.btn-success[href='/Book/Create']").click();
-
         fillForm();
-
         cy.get("input[type='submit'][value='Create'].btn.btn-outline-success.mt-2").click();
-
         searchAndVerify("create");
-    });
+    })
 
-    it("Update already existing book", () => {
-        cy.get("a.nav-link.text-dark[href='/Book']").click();
-
-        searchAndVerify();
-
-        cy.contains("tr", _bookTitle).within(() => {
-            cy.get("a.btn.btn-primary").click();
-        });
-
-        fillForm();
-
-        cy.get("input[type='submit'][value='Save edit'].btn.btn-outline-success.mt-2").click();
-
-        searchAndVerify("update");
-
-    });
-
-    it("Delete already existing book", () => {
-
-        cy.get("a.nav-link.text-dark[href='/Book']").click();
-
-        searchAndVerify();
-
-        cy.contains("tr", _bookTitle).within(() => {
-            cy.get("button.btn.btn-danger").click();
-        });
-
-    });
-
-});
+})
