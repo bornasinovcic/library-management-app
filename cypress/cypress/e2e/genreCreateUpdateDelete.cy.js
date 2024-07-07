@@ -5,6 +5,15 @@ import { localhost_url } from "../fixtures/example.json";
 let _randomNumber = "";
 let _genreName = "";
 
+function fillForm() {
+    _randomNumber = Math.floor(10000 + Math.random() * 90000);
+    _genreName = `Genre${_randomNumber}`;
+    cy.get("input#Name")
+        .clear()
+        .type(_genreName)
+        .should("have.value", _genreName);
+}
+
 function searchAndVerify(testCondition = "defaultCondition") {
     cy.get("input#Name")
         .clear()
@@ -17,15 +26,6 @@ function searchAndVerify(testCondition = "defaultCondition") {
     } else if (testCondition === "delete") {
         cy.get(".table.table-condensed tbody").find("tr").should("have.length", 0);
     }
-}
-
-function fillForm() {
-    _randomNumber = Math.floor(10000 + Math.random() * 90000);
-    _genreName = `Genre${_randomNumber}`;
-    cy.get("input#Name")
-        .clear()
-        .type(_genreName)
-        .should("have.value", _genreName);
 }
 
 describe("Testing of genre create, update and delete function", () => {

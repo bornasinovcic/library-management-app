@@ -11,15 +11,12 @@ let _bookAuthors = [];
 
 function getRandomDate() {
     let start = new Date();
-    start.setFullYear(start.getFullYear() - 100); // Set start date to 100 years ago
-    let end = new Date(); // End date (current date)
+    start.setFullYear(start.getFullYear() - 100);
+    let end = new Date();
     let randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-
-    // Format the date as M/D/YYYY without leading zeros
     let day = randomDate.getDate();
-    let month = randomDate.getMonth() + 1; // Months are 0-based in JavaScript
+    let month = randomDate.getMonth() + 1;
     let year = randomDate.getFullYear();
-
     return `${month}/${day}/${year}`;
 }
 
@@ -33,47 +30,73 @@ function getRandomElements(arr, count) {
 }
 
 function fillForm() {
-    // Generate random values
-    _bookTitle = "Test Book " + Math.floor(Math.random() * 1000);
-    _bookDescription = "This is a test book description.";
-    _bookPublishDate = getRandomDate();
-
-    // Fill title
-    cy.get("#Title").type(_bookTitle);
-
-    // Fill description
-    cy.get("#Description").type(_bookDescription);
-
-    // Fill publish date
-    cy.get("#PublishDate").type(_bookPublishDate);
-
-    // Select random genre
-    cy.get("#GenreId").then(($genreDropdown) => {
-        const options = $genreDropdown.find("option").not(":first").toArray(); // Exclude the first option
-        const randomOption = getRandomElement(options);
-        _bookGenre = randomOption.innerText.trim();
-        cy.get("#GenreId").select(_bookGenre);
+    cy.wrap(null).then(() => {
+        _randomNumber = Math.floor(10000 + Math.random() * 90000);
+        _bookTitle = `Title${_randomNumber}`;
+        _bookDescription = `Description${_randomNumber}`;
+        _bookPublishDate = getRandomDate();
+        cy.get("input#Title")
+            .clear()
+            .type(_bookTitle)
+            .should("have.value", _bookTitle);
+        cy.get("input#Description")
+            .clear()
+            .type(_bookDescription)
+            .should("have.value", _bookDescription);
+        cy.get("input#PublishDate")
+            .clear()
+            .type(_bookPublishDate)
+            .should("have.value", _bookPublishDate);
+        cy.get("#GenreId").then(($genreDropdown) => {
+            const options = $genreDropdown.find("option").not(":first").toArray();
+            const randomOption = getRandomElement(options);
+            _bookGenre = randomOption.innerText.trim();
+            cy.get("#GenreId").select(_bookGenre);
+        });
+        cy.get("#AuthorBooks").then(($authorDropdown) => {
+            const options = $authorDropdown.find("option").toArray();
+            const randomAuthors = getRandomElements(options, Math.floor(Math.random() * (options.length - 1)) + 1).map(option => option.innerText.trim());
+            _bookAuthors = randomAuthors;
+            cy.get("#AuthorBooks").select(_bookAuthors);
+        });
     });
-
-    // Select random authors
-    cy.get("#AuthorBooks").then(($authorDropdown) => {
-        const options = $authorDropdown.find("option").toArray(); // Include all options
-        const randomAuthors = getRandomElements(options, Math.floor(Math.random() * (options.length - 1)) + 1).map(option => option.innerText.trim());
-        _bookAuthors = randomAuthors;
-        cy.get("#AuthorBooks").select(_bookAuthors);
-    });
-
-    // Submit the form
-    cy.get("input[type='submit']").click();
-
-    cy.log(`_bookTitle -> ${_bookTitle}`);
-    cy.log(`_bookDescription -> ${_bookDescription}`);
-    cy.log(`_bookPublishDate -> ${_bookPublishDate}`);
-    cy.log(`_bookGenre -> ${_bookGenre}`);
-    cy.log(`_bookAuthors -> ${_bookAuthors}`);
 }
 
-
+function searchAndVerify(testCondition = "defaultCondition") {
+    cy.wrap(null).then(() => {
+        cy.get("input#Title")
+            .clear()
+            .type(_bookTitle)
+            .should("have.value", _bookTitle);
+        cy.get("input#Description")
+            .clear()
+            .type(_bookDescription)
+            .should("have.value", _bookDescription);
+        cy.get("input#Genre")
+            .clear()
+            .type(_bookGenre)
+            .should("have.value", _bookGenre);
+        cy.get("button.btn.btn-outline-info").click();
+        if (testCondition === "create" || testCondition === "update") {
+            cy.get("tr").contains(_bookTitle).click();
+            cy.get("dd#title").should("contain", _bookTitle);
+            cy.get("dd#description").should("contain", _bookDescription);
+            cy.get("dd#publishDate").should("contain", _bookPublishDate);
+            cy.get("dd#bookGenre").should("contain", _bookGenre);
+            cy.get('#authors ul li a').then($links => {
+                let bookAuthors = [...$links].map(link => link.innerText.trim());
+                bookAuthors.sort();
+                _bookAuthors.sort();
+                expect(bookAuthors.length).to.equal(_bookAuthors.length);
+                bookAuthors.forEach((author, index) => {
+                    expect(author).to.equal(_bookAuthors[index]);
+                });
+            });
+        } else if (testCondition === "delete") {
+            cy.get(".table.table-condensed tbody").find("tr").should("have.length", 0);
+        }
+    });
+}
 
 describe("Testing of book create, update and delete function", () => {
 
@@ -85,6 +108,27 @@ describe("Testing of book create, update and delete function", () => {
         cy.get("a.nav-link.text-dark[href='/Book']").click();
         cy.get("a.btn.btn-success[href='/Book/Create']").click();
         fillForm();
+        cy.get("input[type='submit'][value='Create'].btn.btn-outline-success.mt-2").click();
+        searchAndVerify("create");
+    });
 
+    it("Update already existing book", () => {
+        cy.get("a.nav-link.text-dark[href='/Book']").click();
+        searchAndVerify();
+        cy.contains("tr", _bookTitle).within(() => {
+            cy.get("a.btn.btn-primary").click();
+        });
+        fillForm();
+        cy.get("input[type='submit'][value='Save edit'].btn.btn-outline-success.mt-2").click();
+        searchAndVerify("update");
+    });
+
+    it("Delete already existing book", () => {
+        cy.get("a.nav-link.text-dark[href='/Book']").click();
+        searchAndVerify()
+        cy.contains("tr", _bookTitle).within(() => {
+            cy.get("button.btn.btn-danger").click();
+        });
+        searchAndVerify("delete");
     });
 })
