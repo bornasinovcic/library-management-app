@@ -3,7 +3,8 @@ undone:
     [] -> ajax deletion everywhere
     [] -> bring back deletion in details
     [] -> make login/signup available
+    [] -> solve foreign key constrain error when deleting genre or city
+    [] -> write tests for author creation, update and deletion
 doing:
     [] -> refactor cypress code
 done:
-    [] -> write tests for author creation, update and deletion
