@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 
 import { localhost_url } from "../fixtures/example.json";
+import { getRandomDate, getRandomGender, getRandomElement, getRandomElements } from "../support/utils.js";
 
 let _randomNumber = "";
 let _firstName = "";
@@ -11,38 +12,12 @@ let _dateOfBirthdate = "";
 let _placeOfBirthdate = "";
 let _books = [];
 
-function getRandomDate() {
-    let start = new Date();
-    start.setFullYear(start.getFullYear() - 100);
-    let end = new Date();
-    let randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    let day = randomDate.getDate();
-    let month = randomDate.getMonth() + 1;
-    let year = randomDate.getFullYear();
-    return `${month}/${day}/${year}`;
-}
-
-function getRandomgender() {
-    const genders = ['M', 'F'];
-    const randomIndex = Math.floor(Math.random() * genders.length);
-    return genders[randomIndex];
-}
-
-function getRandomElement(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getRandomElements(arr, count) {
-    const shuffled = arr.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-}
-
 function fillForm() {
     cy.wrap(null).then(() => {
         _randomNumber = Math.floor(10000 + Math.random() * 90000);
         _firstName = `First${_randomNumber}`;
         _lastName = `Last${_randomNumber}`;
-        _gender = getRandomgender();
+        _gender = getRandomGender();
         _email = `email${_randomNumber}@gmail.com`;
         _dateOfBirthdate = getRandomDate();
         cy.get("input#FirstName")

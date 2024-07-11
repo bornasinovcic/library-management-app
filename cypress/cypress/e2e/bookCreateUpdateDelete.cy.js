@@ -1,6 +1,7 @@
 /// <reference types="Cypress" />
 
 import { localhost_url } from "../fixtures/example.json";
+import { getRandomDate, getRandomElement, getRandomElements } from "../support/utils.js";
 
 let _randomNumber = "";
 let _bookTitle = "";
@@ -8,26 +9,6 @@ let _bookDescription = "";
 let _bookPublishDate = "";
 let _bookGenre = "";
 let _bookAuthors = [];
-
-function getRandomDate() {
-    let start = new Date();
-    start.setFullYear(start.getFullYear() - 100);
-    let end = new Date();
-    let randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    let day = randomDate.getDate();
-    let month = randomDate.getMonth() + 1;
-    let year = randomDate.getFullYear();
-    return `${month}/${day}/${year}`;
-}
-
-function getRandomElement(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getRandomElements(arr, count) {
-    const shuffled = arr.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-}
 
 function fillForm() {
     cy.wrap(null).then(() => {
