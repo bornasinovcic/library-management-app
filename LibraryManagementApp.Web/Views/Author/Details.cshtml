@@ -28,43 +28,43 @@
             <dt>
                 First Name
             </dt>
-            <dd>
+            <dd id="firstName">
                 @Html.DisplayFor(model => model.FirstName)
             </dd>
             <dt>
                 Last Name
             </dt>
-            <dd>
+            <dd id="lastName">
                 @Html.DisplayFor(model => model.LastName)
             </dd>
             <dt>
                 Gender
             </dt>
-            <dd>
+            <dd id="gender">
                 @Html.DisplayFor(model => model.Gender)
             </dd>
             <dt>
                 Email
             </dt>
-            <dd>
+            <dd id="email">
                 @Html.DisplayFor(model => model.Email)
             </dd>
             <dt>
                 Date of Birth
             </dt>
-            <dd>
+            <dd id="dateOfBirth">
                 @Html.DisplayFor(model => model.DateOfBirth)
             </dd>
             <dt>
                 City
             </dt>
-            <dd>
+            <dd id="city">
                 @Model?.PlaceOfBirth?.Name
             </dd>
             <dt>
                 Books
             </dt>
-            <dd>
+            <dd id="books">
                 <ul>
                     @if (Model.AuthorBooks != null)
                     {
