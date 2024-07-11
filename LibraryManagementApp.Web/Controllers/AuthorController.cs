@@ -179,9 +179,17 @@ public class AuthorController : Controller
         {
             _libraryDbContext.Authors.Remove(author);
             await _libraryDbContext.SaveChangesAsync();
-            return Json(new { success = true });
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = true });
+            else
+                return RedirectToAction("Index");
         }
-        return Json(new { success = false });
+
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            return Json(new { success = false });
+        else
+            return RedirectToAction("Index");
     }
 
 
