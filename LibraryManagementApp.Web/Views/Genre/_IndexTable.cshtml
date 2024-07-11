@@ -14,16 +14,34 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="genreRow_@item.Id">
                 <td>@item.Id</td>
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
                 <td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a></td>
                 <td>
-                    <form asp-action="Delete" asp-route-id="@item.Id" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <button type="button" class="btn btn-danger" onclick="deleteGenre(@item.Id)">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function deleteGenre(id) {
+        $.ajax({
+            url: '@Url.Action("Delete", "Genre")',
+            type: 'POST',
+            data: { id: id },
+            success: function (response) {
+                if (response.success) {
+                    $('#genreRow_' + id).remove();
+                } else {
+                    alert("Failed to delete genre.");
+                }
+            },
+            error: function () {
+                alert("Error occurred while trying to delete author.");
+            }
+        });
+    }
+</script>

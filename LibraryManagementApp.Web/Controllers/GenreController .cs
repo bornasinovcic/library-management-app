@@ -88,17 +88,21 @@ public class GenreController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
-        var genreToDelete = await _libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
-
-        if (genreToDelete == null)
+        var genre = await _libraryDbContext.Genres.FindAsync(id);
+        if (genre != null)
         {
-            return NotFound();
+            _libraryDbContext.Genres.Remove(genre);
+            await _libraryDbContext.SaveChangesAsync();
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = true });
+            else
+                return RedirectToAction("Index");
         }
-
-        _libraryDbContext.Genres.Remove(genreToDelete);
-        await _libraryDbContext.SaveChangesAsync();
-
-        return RedirectToAction("Index");
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            return Json(new { success = false });
+        else
+            return RedirectToAction("Index");
     }
 
     [HttpGet("Type/Details")]
