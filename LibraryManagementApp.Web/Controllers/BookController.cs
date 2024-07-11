@@ -188,8 +188,15 @@ public class BookController : Controller
         {
             _libraryDbContext.Books.Remove(book);
             await _libraryDbContext.SaveChangesAsync();
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = true });
+            else
+                return RedirectToAction("Index");
         }
-        return RedirectToAction(nameof(Index));
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            return Json(new { success = false });
+        else
+            return RedirectToAction("Index");
     }
 
     private void FillDropdownValues()

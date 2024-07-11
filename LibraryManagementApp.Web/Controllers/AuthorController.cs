@@ -185,7 +185,6 @@ public class AuthorController : Controller
             else
                 return RedirectToAction("Index");
         }
-
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             return Json(new { success = false });
         else

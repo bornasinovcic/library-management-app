@@ -93,13 +93,13 @@ function searchAndVerify(testCondition = "defaultCondition") {
     });
 }
 
-describe("Testing of book create, update and delete function", () => {
+describe("Testing of author create, update and delete function", () => {
 
     beforeEach(() => {
         cy.visit(localhost_url);
     });
 
-    it("Create new book", () => {
+    it("Create new author", () => {
         cy.get("a.nav-link.text-dark[href='/Author']").click();
         cy.get("a.btn.btn-success[href='/Writer/Add']").click();
         fillForm();
@@ -107,7 +107,7 @@ describe("Testing of book create, update and delete function", () => {
         searchAndVerify("create");
     });
 
-    it("Update already existing book", () => {
+    it("Update already existing author", () => {
         cy.get("a.nav-link.text-dark[href='/Author']").click();
         searchAndVerify();
         cy.contains("tr", `${_firstName} ${_lastName}`).within(() => {
@@ -118,7 +118,7 @@ describe("Testing of book create, update and delete function", () => {
         searchAndVerify("update");
     });
 
-    it("Delete already existing book", () => {
+    it("Delete already existing author", () => {
         cy.get("a.nav-link.text-dark[href='/Author']").click();
         searchAndVerify()
         cy.contains("tr", `${_firstName} ${_lastName}`).within(() => {
