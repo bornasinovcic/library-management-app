@@ -14,16 +14,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var book in Model)
+        @foreach (var item in Model)
         {
-            <tr id="bookRow_@book.Id">
-                <td>@book.Id</td>
-                <td><a asp-action="Details" asp-route-id="@book.Id">@book.Title</a></td>
-                <td>@book.Description</td>
-                <td>@book.BookGenre?.Name</td>
-                <td><a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-primary">Edit</a></td>
+            <tr id="bookRow_@item.Id">
+                <td>@item.Id</td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.Title</a></td>
+                <td>@item.Description</td>
+                <td>@item.BookGenre?.Name</td>
+                <td><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a></td>
                 <td>
-                    <button type="button" class="btn btn-danger" onclick="deleteBook(@book.Id)">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteBook(@item.Id)">Delete</button>
                 </td>
             </tr>
         }

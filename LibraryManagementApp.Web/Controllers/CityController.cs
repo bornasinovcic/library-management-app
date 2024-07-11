@@ -101,20 +101,24 @@ public class CityController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Delete(int id)
 	{
-		var cityToDelete = await _libraryDbContext.Cities.FirstOrDefaultAsync(c => c.Id == id);
+        var city = await _libraryDbContext.Cities.FindAsync(id);
+        if (city != null)
+        {
+            _libraryDbContext.Cities.Remove(city);
+            await _libraryDbContext.SaveChangesAsync();
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = true });
+            else
+                return RedirectToAction("Index");
+        }
+        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            return Json(new { success = false });
+        else
+            return RedirectToAction("Index");
 
-		if (cityToDelete == null)
-		{
-			return NotFound();
-		}
+    }
 
-		_libraryDbContext.Cities.Remove(cityToDelete);
-		await _libraryDbContext.SaveChangesAsync();
-
-		return RedirectToAction("Index");
-	}
-
-	[HttpGet]
+    [HttpGet]
 	public async Task<IActionResult> Details(int? id = null)
 	{
 		City? model = null;

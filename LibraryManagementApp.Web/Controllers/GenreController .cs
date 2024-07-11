@@ -93,7 +93,6 @@ public class GenreController : Controller
         {
             _libraryDbContext.Genres.Remove(genre);
             await _libraryDbContext.SaveChangesAsync();
-
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 return Json(new { success = true });
             else
