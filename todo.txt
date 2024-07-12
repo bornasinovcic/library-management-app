@@ -2,10 +2,10 @@ undone:
     [] -> add angular to project
     [] -> make login/signup available
     [] -> solve foreign key constrain error when deleting genre or city
-    [] -> display message for no city, books, genre, authors
 doing:
 done:
     [] -> ajax deletion everywhere
     [] -> bring back deletion in details
+    [] -> display message for no city, books, genre, authors
     [] -> refactor cypress code
     [] -> write tests for author creation, update and deletion

@@ -47,15 +47,22 @@
                 Genre
             </dt>
             <dd id="bookGenre">
-                @Model?.BookGenre?.Name
+                @if (Model.BookGenre == null)
+                {
+                    <p>N/A</p>
+                }
+                else
+                {
+                    @Model?.BookGenre?.Name
+                }
             </dd>
             <dt>
                 Authors
             </dt>
             <dd id="authors">
-                <ul>
-                    @if (Model.AuthorBooks != null)
-                    {
+                @if (Model.AuthorBooks.Count != 0)
+                {
+                    <ul>
                         @foreach (var authorBook in Model.AuthorBooks)
                         {
                             <li>
@@ -64,15 +71,13 @@
                                 </a>
                             </li>
                         }
-                    }
-                    else
-                    {
-                        <li>No authors found</li>
-                    }
-                </ul>
+                    </ul>
+                }
+                else
+                {
+                    <p>N/A</p>
+                }
             </dd>
-
-            <!-- Additional fields can be added here if needed -->
         </dl>
         <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
