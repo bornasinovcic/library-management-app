@@ -19,45 +19,19 @@
         <h4>Author</h4>
         <hr />
         <dl class="dl-horizontal">
-            <dt>
-                Id
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Id)
-            </dd>
-            <dt>
-                First Name
-            </dt>
-            <dd id="firstName">
-                @Html.DisplayFor(model => model.FirstName)
-            </dd>
-            <dt>
-                Last Name
-            </dt>
-            <dd id="lastName">
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt>
-                Gender
-            </dt>
-            <dd id="gender">
-                @Html.DisplayFor(model => model.Gender)
-            </dd>
-            <dt>
-                Email
-            </dt>
-            <dd id="email">
-                @Html.DisplayFor(model => model.Email)
-            </dd>
-            <dt>
-                Date of Birth
-            </dt>
-            <dd id="dateOfBirth">
-                @Html.DisplayFor(model => model.DateOfBirth)
-            </dd>
-            <dt>
-                City
-            </dt>
+            <dt>Id</dt>
+            <dd>@Html.DisplayFor(model => model.Id)</dd>
+            <dt>First Name</dt>
+            <dd id="firstName">@Html.DisplayFor(model => model.FirstName)</dd>
+            <dt>Last Name</dt>
+            <dd id="lastName">@Html.DisplayFor(model => model.LastName)</dd>
+            <dt>Gender</dt>
+            <dd id="gender">@Html.DisplayFor(model => model.Gender)</dd>
+            <dt>Email</dt>
+            <dd id="email">@Html.DisplayFor(model => model.Email)</dd>
+            <dt>Date of Birth</dt>
+            <dd id="dateOfBirth">@Html.DisplayFor(model => model.DateOfBirth)</dd>
+            <dt>City</dt>
             <dd id="city">
                 @if (Model.PlaceOfBirth == null)
                 {
@@ -68,9 +42,7 @@
                     @Model?.PlaceOfBirth?.Name
                 }
             </dd>
-            <dt>
-                Books
-            </dt>
+            <dt>Books</dt>
             <dd id="books">
                 @if (Model.AuthorBooks.Count != 0)
                 {

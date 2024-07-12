@@ -19,19 +19,10 @@
         <h4>Genre</h4>
         <hr />
         <dl class="dl-horizontal">
-            <dt>
-                Id
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Id)
-            </dd>
-            <dt>
-                Name
-            </dt>
-            <dd id="name">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <!-- Add more fields as needed -->
+            <dt>Id</dt>
+            <dd>@Html.DisplayFor(model => model.Id)</dd>
+            <dt>Name</dt>
+            <dd id="name">@Html.DisplayFor(model => model.Name)</dd>
         </dl>
         <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>

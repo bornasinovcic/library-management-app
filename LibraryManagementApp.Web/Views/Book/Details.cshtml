@@ -19,33 +19,15 @@
         <h4>Book</h4>
         <hr />
         <dl class="dl-horizontal">
-            <dt>
-                Id
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Id)
-            </dd>
-            <dt>
-                Title
-            </dt>
-            <dd id="title">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt>
-                Description
-            </dt>
-            <dd id="description">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt>
-                Publish Date
-            </dt>
-            <dd id="publishDate">
-                @Html.DisplayFor(model => model.PublishDate)
-            </dd>
-            <dt>
-                Genre
-            </dt>
+            <dt>Id</dt>
+            <dd>@Html.DisplayFor(model => model.Id)</dd>
+            <dt>Title</dt>
+            <dd id="title">@Html.DisplayFor(model => model.Title)</dd>
+            <dt>Description</dt>
+            <dd id="description">@Html.DisplayFor(model => model.Description)</dd>
+            <dt>Publish Date</dt>
+            <dd id="publishDate">@Html.DisplayFor(model => model.PublishDate)</dd>
+            <dt>Genre</dt>
             <dd id="bookGenre">
                 @if (Model.BookGenre == null)
                 {
@@ -56,9 +38,7 @@
                     @Model?.BookGenre?.Name
                 }
             </dd>
-            <dt>
-                Authors
-            </dt>
+            <dt>Authors</dt>
             <dd id="authors">
                 @if (Model.AuthorBooks.Count != 0)
                 {

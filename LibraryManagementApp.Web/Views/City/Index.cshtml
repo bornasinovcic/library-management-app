@@ -10,6 +10,13 @@
 	<h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
+@if (TempData["ErrorMessage"] != null)
+{
+	<div class="alert alert-danger">
+		@TempData["ErrorMessage"]
+	</div>
+}
+
 <div style="margin-top: 20px; margin-bottom: 10px;">
 	<partial name="_CityFilter" model="new CityFilterModel()" />
 </div>

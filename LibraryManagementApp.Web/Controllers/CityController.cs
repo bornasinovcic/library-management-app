@@ -1,8 +1,8 @@
 ﻿using LibraryManagementApp.DAL;
 using LibraryManagementApp.Model;
 using LibraryManagementApp.Web.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementApp.Web.Controllers;
@@ -98,25 +98,48 @@ public class CityController : Controller
 		return View(model);
 	}
 
-	[HttpPost]
-	public async Task<IActionResult> Delete(int id)
-	{
-        var city = await _libraryDbContext.Cities.FindAsync(id);
-        if (city != null)
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
         {
-            _libraryDbContext.Cities.Remove(city);
-            await _libraryDbContext.SaveChangesAsync();
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return Json(new { success = true });
-            else
-                return RedirectToAction("Index");
-        }
-        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            return Json(new { success = false });
-        else
-            return RedirectToAction("Index");
+            var city = await _libraryDbContext.Cities.FindAsync(id);
+            if (city != null)
+            {
+                _libraryDbContext.Cities.Remove(city);
+                await _libraryDbContext.SaveChangesAsync();
 
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    return Json(new { success = true });
+                else
+                    return RedirectToAction("Index");
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = false, message = "City not found." });
+            else
+                TempData["ErrorMessage"] = "City not found.";
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
+        {
+            // Foreign key constraint violation
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = false, message = "Unable to delete city. It is being used somewhere in the application." });
+            else
+                TempData["ErrorMessage"] = "Unable to delete city. It is being used somewhere in the application.";
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (ex)
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = false, message = "An unexpected error occurred. Please try again later." });
+            else
+                TempData["ErrorMessage"] = "An unexpected error occurred. Please try again later.";
+        }
+
+        return RedirectToAction("Index");
     }
+
 
     [HttpGet]
 	public async Task<IActionResult> Details(int? id = null)

@@ -36,7 +36,7 @@
                 if (response.success) {
                     $('#genreRow_' + id).remove();
                 } else {
-                    alert("Failed to delete genre.");
+                    alert("That genre is being used so it cannot be deleted.");
                 }
             },
             error: function () {

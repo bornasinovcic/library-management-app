@@ -38,7 +38,7 @@
 				if (response.success) {
 					$('#cityRow_' + id).remove();
 				} else {
-					alert("Failed to delete city.");
+					alert("That city is being used so it cannot be deleted.");
 				}
 			},
 			error: function () {

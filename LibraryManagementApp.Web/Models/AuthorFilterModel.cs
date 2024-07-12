@@ -1,4 +1,5 @@
 ﻿namespace LibraryManagementApp.Web.Models;
+
 public class AuthorFilterModel
 {
     public string? FullName { get; set; }

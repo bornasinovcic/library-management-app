@@ -2,6 +2,7 @@
 using LibraryManagementApp.Model;
 using LibraryManagementApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -88,21 +89,45 @@ public class GenreController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
-        var genre = await _libraryDbContext.Genres.FindAsync(id);
-        if (genre != null)
+        try
         {
-            _libraryDbContext.Genres.Remove(genre);
-            await _libraryDbContext.SaveChangesAsync();
+            var genre = await _libraryDbContext.Genres.FindAsync(id);
+            if (genre != null)
+            {
+                _libraryDbContext.Genres.Remove(genre);
+                await _libraryDbContext.SaveChangesAsync();
+
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    return Json(new { success = true });
+                else
+                    return RedirectToAction("Index");
+            }
+
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return Json(new { success = true });
+                return Json(new { success = false, message = "Genre not found." });
             else
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = "Genre not found.";
         }
-        if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            return Json(new { success = false });
-        else
-            return RedirectToAction("Index");
+        catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
+        {
+            // Foreign key constraint violation
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = false, message = "Unable to delete genre. It is being used somewhere in the application." });
+            else
+                TempData["ErrorMessage"] = "Unable to delete genre. It is being used somewhere in the application.";
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (ex)
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                return Json(new { success = false, message = "An unexpected error occurred. Please try again later." });
+            else
+                TempData["ErrorMessage"] = "An unexpected error occurred. Please try again later.";
+        }
+
+        return RedirectToAction("Index");
     }
+
 
     [HttpGet("Type/Details")]
     public async Task<IActionResult> Details(int? id = null)
