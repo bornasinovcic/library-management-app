@@ -1,6 +1,7 @@
 undone:
     [] -> add angular to project
     [] -> make login/signup available
+    [] -> update foreignKeyConstraintError.cy.js
 doing:
 done:
     [] -> ajax deletion everywhere
