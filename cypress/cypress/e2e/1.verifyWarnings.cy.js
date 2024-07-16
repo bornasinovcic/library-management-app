@@ -120,7 +120,6 @@ describe('Verify warnings for required parameters', () => {
         cy.get('span.text-danger.field-validation-error[data-valmsg-for="Name"][data-valmsg-replace="true"]')
             .should('be.visible')
             .and('contain', 'Genre name must be between 2 and 50 characters.');
-
     });
 
 })
