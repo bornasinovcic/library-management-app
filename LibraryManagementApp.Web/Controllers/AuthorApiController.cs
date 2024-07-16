@@ -6,19 +6,13 @@ using Microsoft.EntityFrameworkCore;
 namespace LibraryManagementApp.Web.Controllers;
 [Route("api/author")]
 [ApiController]
-public class AuthorApiController : ControllerBase
+public class AuthorApiController(LibraryDbContext libraryDbContext) : ControllerBase
 {
-    private readonly LibraryDbContext _libraryDbContext;
-    public AuthorApiController(LibraryDbContext libraryDbContext)
-    {
-        _libraryDbContext = libraryDbContext;
-    }
-
     // GET: api/author
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Author>>> Get()
     {
-        var authors = await _libraryDbContext.Authors
+        var authors = await libraryDbContext.Authors
             .Include(a => a.PlaceOfBirth)
             .ToListAsync();
 
@@ -29,7 +23,7 @@ public class AuthorApiController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Author>> GetAuthor(int id)
     {
-        var author = await _libraryDbContext.Authors
+        var author = await libraryDbContext.Authors
             .Include(a => a.PlaceOfBirth)
             .FirstOrDefaultAsync(a => a.Id == id);
 
@@ -50,8 +44,8 @@ public class AuthorApiController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        _libraryDbContext.Authors.Add(model);
-        await _libraryDbContext.SaveChangesAsync();
+        libraryDbContext.Authors.Add(model);
+        await libraryDbContext.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetAuthor), new { id = model.Id }, model);
     }
@@ -65,7 +59,7 @@ public class AuthorApiController : ControllerBase
             return BadRequest("ID in the URL does not match the ID in the request body.");
         }
 
-        var existingAuthor = await _libraryDbContext.Authors.FirstOrDefaultAsync(a => a.Id == id);
+        var existingAuthor = await libraryDbContext.Authors.FirstOrDefaultAsync(a => a.Id == id);
 
         if (existingAuthor == null)
         {
@@ -79,7 +73,7 @@ public class AuthorApiController : ControllerBase
         existingAuthor.DateOfBirth = model.DateOfBirth;
         existingAuthor.PlaceOfBirthId = model.PlaceOfBirthId;
 
-        await _libraryDbContext.SaveChangesAsync();
+        await libraryDbContext.SaveChangesAsync();
 
         // Check if the author still exists after saving changes
         if (!AuthorExists(id))
@@ -92,21 +86,21 @@ public class AuthorApiController : ControllerBase
 
     private bool AuthorExists(int id)
     {
-        return _libraryDbContext.Authors.Any(e => e.Id == id);
+        return libraryDbContext.Authors.Any(e => e.Id == id);
     }
 
     // DELETE: api/author/{id}
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var author = await _libraryDbContext.Authors.FindAsync(id);
+        var author = await libraryDbContext.Authors.FindAsync(id);
         if (author == null)
         {
             return NotFound();
         }
 
-        _libraryDbContext.Authors.Remove(author);
-        await _libraryDbContext.SaveChangesAsync();
+        libraryDbContext.Authors.Remove(author);
+        await libraryDbContext.SaveChangesAsync();
 
         return Ok(new { message = "Author deleted successfully." });
     }

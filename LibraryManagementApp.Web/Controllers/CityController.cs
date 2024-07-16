@@ -7,15 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementApp.Web.Controllers;
 
-public class CityController : Controller
+public class CityController(LibraryDbContext libraryDbContext) : Controller
 {
-	private readonly LibraryDbContext _libraryDbContext;
-
-	public CityController( LibraryDbContext libraryDbContext)
-	{
-		_libraryDbContext = libraryDbContext;
-	}
-
 	[HttpGet]
 	public IActionResult Index() => View();
 
@@ -24,7 +17,7 @@ public class CityController : Controller
     {
         filter ??= new CityFilterModel();
 
-        var cityQuery = _libraryDbContext.Cities.AsQueryable();
+        var cityQuery = libraryDbContext.Cities.AsQueryable();
 
         // Add filtering conditions
         if (!string.IsNullOrWhiteSpace(filter.Name))
@@ -51,8 +44,8 @@ public class CityController : Controller
 				Country = model.Country
 			};
 
-			_libraryDbContext.Cities.Add(newCity);
-			await _libraryDbContext.SaveChangesAsync();
+			libraryDbContext.Cities.Add(newCity);
+			await libraryDbContext.SaveChangesAsync();
 			return RedirectToAction("Index");
 		}
 		return View(model);
@@ -61,7 +54,7 @@ public class CityController : Controller
 	[HttpGet]
 	public async Task<IActionResult> Edit(int id)
 	{
-		var city = await _libraryDbContext
+		var city = await libraryDbContext
 			.Cities
 			.FirstOrDefaultAsync(c => c.Id == id);
 
@@ -80,13 +73,13 @@ public class CityController : Controller
 	{
 		if (ModelState.IsValid)
 		{
-			var existingCity = await _libraryDbContext.Cities.FirstOrDefaultAsync(c => c.Id == model.Id);
+			var existingCity = await libraryDbContext.Cities.FirstOrDefaultAsync(c => c.Id == model.Id);
 
 			if (existingCity != null)
 			{
 				existingCity.Name = model.Name;
 				existingCity.Country = model.Country;
-				await _libraryDbContext.SaveChangesAsync();
+				await libraryDbContext.SaveChangesAsync();
 				return RedirectToAction("Index");
 			}
 			else
@@ -103,11 +96,11 @@ public class CityController : Controller
     {
         try
         {
-            var city = await _libraryDbContext.Cities.FindAsync(id);
+            var city = await libraryDbContext.Cities.FindAsync(id);
             if (city != null)
             {
-                _libraryDbContext.Cities.Remove(city);
-                await _libraryDbContext.SaveChangesAsync();
+                libraryDbContext.Cities.Remove(city);
+                await libraryDbContext.SaveChangesAsync();
 
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                     return Json(new { success = true });
@@ -148,7 +141,7 @@ public class CityController : Controller
 
 		if (id != null)
 		{
-			model = await _libraryDbContext
+			model = await libraryDbContext
 				.Cities
 				.Where(c => c.Id == id)
 				.FirstOrDefaultAsync();

@@ -28,7 +28,7 @@
     <script>
         $(document).ready(function () {
             // Initialize selected books from the model
-            var selectedAuthors = @Html.Raw(Json.Serialize(selectedAuthorIds));
+            let selectedAuthors = @Html.Raw(Json.Serialize(selectedAuthorIds));
 
             // Set selected books in the select element
             $('select[multiple]').val(selectedAuthors);
@@ -40,10 +40,10 @@
 
             // Ensure selected books are submitted with the form
             $('form').submit(function () {
-                var form = $(this);
-                var authorInputs = '';
+                let form = $(this);
+                let authorInputs = '';
 
-                for (var i = 0; i < selectedAuthors.length; i++) {
+                for (let i = 0; i < selectedAuthors.length; i++) {
                     authorInputs += '<input type="hidden" name="selectedAuthors" value="' + selectedAuthors[i] + '" />';
                 }
 

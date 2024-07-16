@@ -57,11 +57,11 @@ describe("", () => {
                 expect(alertText).to.equal('That genre is being used so it cannot be deleted.');
             });
             cy.get("tr").contains(genre).click();
+            cy.get("button.btn.btn-danger").click();
+            cy.get('.alert.alert-danger')
+                .should('be.visible')
+                .and('contain.text', 'Unable to delete genre. It is being used somewhere in the application.');
         });
-        cy.get("button.btn.btn-danger").click();
-        cy.get('.alert.alert-danger')
-            .should('be.visible')
-            .and('contain.text', 'Unable to delete genre. It is being used somewhere in the application.');
     });
 
 })

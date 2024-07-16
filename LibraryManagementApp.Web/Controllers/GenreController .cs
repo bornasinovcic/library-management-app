@@ -8,15 +8,8 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementApp.Web.Controllers;
 
-public class GenreController : Controller
+public class GenreController(LibraryDbContext libraryDbContext) : Controller
 {
-    private readonly LibraryDbContext _libraryDbContext;
-
-    public GenreController(LibraryDbContext libraryDbContext)
-    {
-        _libraryDbContext = libraryDbContext;
-    }
-
     [HttpGet]
     public IActionResult Index() => View();
 
@@ -25,7 +18,7 @@ public class GenreController : Controller
     {
         filter ??= new GenreFilterModel();
 
-        var genreQuery = _libraryDbContext.Genres.AsQueryable();
+        var genreQuery = libraryDbContext.Genres.AsQueryable();
 
         // Add filtering conditions
         if (!string.IsNullOrWhiteSpace(filter.Name))
@@ -44,8 +37,8 @@ public class GenreController : Controller
     {
         if (ModelState.IsValid)
         {
-            _libraryDbContext.Genres.Add(model);
-            await _libraryDbContext.SaveChangesAsync();
+            libraryDbContext.Genres.Add(model);
+            await libraryDbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
         return View(model);
@@ -54,7 +47,7 @@ public class GenreController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var genre = await _libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
+        var genre = await libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
 
         if (genre == null)
         {
@@ -69,12 +62,12 @@ public class GenreController : Controller
     {
         if (ModelState.IsValid)
         {
-            var existingGenre = await _libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == model.Id);
+            var existingGenre = await libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == model.Id);
 
             if (existingGenre != null)
             {
                 existingGenre.Name = model.Name;
-                await _libraryDbContext.SaveChangesAsync();
+                await libraryDbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             else
@@ -91,11 +84,11 @@ public class GenreController : Controller
     {
         try
         {
-            var genre = await _libraryDbContext.Genres.FindAsync(id);
+            var genre = await libraryDbContext.Genres.FindAsync(id);
             if (genre != null)
             {
-                _libraryDbContext.Genres.Remove(genre);
-                await _libraryDbContext.SaveChangesAsync();
+                libraryDbContext.Genres.Remove(genre);
+                await libraryDbContext.SaveChangesAsync();
 
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                     return Json(new { success = true });
@@ -136,7 +129,7 @@ public class GenreController : Controller
 
         if (id != null)
         {
-            model = await _libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
+            model = await libraryDbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
         }
 
         return View(model);

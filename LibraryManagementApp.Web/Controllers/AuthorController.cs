@@ -7,15 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementApp.Web.Controllers;
 
-public class AuthorController : Controller
+public class AuthorController(LibraryDbContext libraryDbContext) : Controller
 {
-    private readonly LibraryDbContext _libraryDbContext;
-
-    public AuthorController(LibraryDbContext libraryDbContext)
-    {
-        _libraryDbContext = libraryDbContext;
-    }
-
     [HttpGet]
     public IActionResult Index() => View();
 
@@ -24,7 +17,7 @@ public class AuthorController : Controller
     {
         filter ??= new AuthorFilterModel();
 
-        var authorQuery = _libraryDbContext.Authors.Include(p => p.PlaceOfBirth).AsQueryable();
+        var authorQuery = libraryDbContext.Authors.Include(p => p.PlaceOfBirth).AsQueryable();
 
         // Add filtering conditions
         if (!string.IsNullOrWhiteSpace(filter.FullName))
@@ -55,8 +48,8 @@ public class AuthorController : Controller
         if (ModelState.IsValid)
         {
             // Create new author and save to the database
-            _libraryDbContext.Authors.Add(author);
-            await _libraryDbContext.SaveChangesAsync();
+            libraryDbContext.Authors.Add(author);
+            await libraryDbContext.SaveChangesAsync();
 
             // Add selected books to the author
             foreach (var bookId in AuthorBooks)
@@ -66,9 +59,9 @@ public class AuthorController : Controller
                     AuthorId = author.Id,
                     BookId = bookId
                 };
-                _libraryDbContext.AuthorBooks.Add(authorBook);
+                libraryDbContext.AuthorBooks.Add(authorBook);
             }
-            await _libraryDbContext.SaveChangesAsync();
+            await libraryDbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -83,7 +76,7 @@ public class AuthorController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var author = await _libraryDbContext.Authors
+        var author = await libraryDbContext.Authors
             .Include(a => a.AuthorBooks)
             .ThenInclude(ab => ab.Book)
             .FirstOrDefaultAsync(a => a.Id == id);
@@ -110,12 +103,12 @@ public class AuthorController : Controller
         {
             try
             {
-                _libraryDbContext.Update(author);
-                await _libraryDbContext.SaveChangesAsync();
+                libraryDbContext.Update(author);
+                await libraryDbContext.SaveChangesAsync();
 
-                var existingAuthorBooks = _libraryDbContext.AuthorBooks.Where(ab => ab.AuthorId == author.Id).ToList();
-                _libraryDbContext.AuthorBooks.RemoveRange(existingAuthorBooks);
-                await _libraryDbContext.SaveChangesAsync();
+                var existingAuthorBooks = libraryDbContext.AuthorBooks.Where(ab => ab.AuthorId == author.Id).ToList();
+                libraryDbContext.AuthorBooks.RemoveRange(existingAuthorBooks);
+                await libraryDbContext.SaveChangesAsync();
 
                 foreach (var bookId in SelectedBooks)
                 {
@@ -124,9 +117,9 @@ public class AuthorController : Controller
                         AuthorId = author.Id,
                         BookId = bookId
                     };
-                    _libraryDbContext.AuthorBooks.Add(authorBook);
+                    libraryDbContext.AuthorBooks.Add(authorBook);
                 }
-                await _libraryDbContext.SaveChangesAsync();
+                await libraryDbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -152,13 +145,13 @@ public class AuthorController : Controller
 
     private bool AuthorExists(int id)
     {
-        return _libraryDbContext.Authors.Any(e => e.Id == id);
+        return libraryDbContext.Authors.Any(e => e.Id == id);
     }
 
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
-        var author = await _libraryDbContext.Authors
+        var author = await libraryDbContext.Authors
             .Include(a => a.PlaceOfBirth)
             .Include(a => a.AuthorBooks)
             .ThenInclude(ab => ab.Book)
@@ -174,11 +167,11 @@ public class AuthorController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
-        var author = await _libraryDbContext.Authors.FindAsync(id);
+        var author = await libraryDbContext.Authors.FindAsync(id);
         if (author != null)
         {
-            _libraryDbContext.Authors.Remove(author);
-            await _libraryDbContext.SaveChangesAsync();
+            libraryDbContext.Authors.Remove(author);
+            await libraryDbContext.SaveChangesAsync();
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 return Json(new { success = true });
             else
@@ -200,7 +193,7 @@ public class AuthorController : Controller
         listItem.Value = "";
         selectItems.Add(listItem);
 
-        foreach (var category in _libraryDbContext.Cities)
+        foreach (var category in libraryDbContext.Cities)
         {
             listItem = new SelectListItem(category.Name, category.Id.ToString());
             selectItems.Add(listItem);
@@ -214,7 +207,7 @@ public class AuthorController : Controller
         var selectItems = new List<SelectListItem>();
 
 
-        foreach (var category in _libraryDbContext.Books)
+        foreach (var category in libraryDbContext.Books)
         {
             var listItem = new SelectListItem(category.Title, category.Id.ToString());
             selectItems.Add(listItem);

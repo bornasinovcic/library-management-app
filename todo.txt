@@ -1,14 +1,14 @@
 undone:
     [] -> add angular to project
-    [] -> check for any changes in rider (var/const, controllers)
     [] -> make login/signup available
-    [] -> update foreignKeyConstraintError.cy.js
     [] -> update verifyWarnings.cy.js
 doing:
+    [] -> check for any changes in rider (var/const, controllers)
 done:
     [] -> ajax deletion everywhere
     [] -> bring back deletion in details
     [] -> display message for no city, books, genre, authors
     [] -> refactor cypress code
     [] -> solve foreign key constraint error when deleting genre or city
+    [] -> update foreignKeyConstraintError.cy.js
     [] -> write tests for author creation, update and deletion
