@@ -9,6 +9,14 @@ function getRandomDate() {
     return `${month}/${day}/${year}`;
 }
 
+function getRandomCapitalLetter() {
+    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    let excludedLetters = ['M', 'F'];
+    let filteredLetters = letters.filter(letter => !excludedLetters.includes(letter));
+    let randomIndex = Math.floor(Math.random() * filteredLetters.length);
+    return filteredLetters[randomIndex];
+}
+
 function getRandomGender() {
     return ['M', 'F'][Math.floor(Math.random() * 2)];
 }
@@ -25,5 +33,6 @@ export default {
     getRandomDate,
     getRandomGender,
     getRandomElement,
-    getRandomElements
+    getRandomElements,
+    getRandomCapitalLetter
 };
