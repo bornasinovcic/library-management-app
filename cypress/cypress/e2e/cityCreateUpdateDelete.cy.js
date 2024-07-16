@@ -66,7 +66,7 @@ describe("Testing of city create, update and delete function", () => {
 
     it("Delete already existing city", () => {
         cy.get("a.nav-link.text-dark[href='/City']").click();
-        searchAndVerify()
+        searchAndVerify();
         cy.contains("tr", _cityName).within(() => {
             cy.get("button.btn.btn-danger").click();
         });

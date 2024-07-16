@@ -106,7 +106,7 @@ describe("Testing of book create, update and delete function", () => {
 
     it("Delete already existing book", () => {
         cy.get("a.nav-link.text-dark[href='/Book']").click();
-        searchAndVerify()
+        searchAndVerify();
         cy.contains("tr", _bookTitle).within(() => {
             cy.get("button.btn.btn-danger").click();
         });

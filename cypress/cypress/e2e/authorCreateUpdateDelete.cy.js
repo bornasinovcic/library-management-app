@@ -120,7 +120,7 @@ describe("Testing of author create, update and delete function", () => {
 
     it("Delete already existing author", () => {
         cy.get("a.nav-link.text-dark[href='/Author']").click();
-        searchAndVerify()
+        searchAndVerify();
         cy.contains("tr", `${_firstName} ${_lastName}`).within(() => {
             cy.get("button.btn.btn-danger").click();
         });
