@@ -16,18 +16,9 @@ function fillForm() {
         _bookTitle = `Title${_randomNumber}`;
         _bookDescription = `Description${_randomNumber}`;
         _bookPublishDate = getRandomDate();
-        cy.get("input#Title")
-            .clear()
-            .type(_bookTitle)
-            .should("have.value", _bookTitle);
-        cy.get("input#Description")
-            .clear()
-            .type(_bookDescription)
-            .should("have.value", _bookDescription);
-        cy.get("input#PublishDate")
-            .clear()
-            .type(_bookPublishDate)
-            .should("have.value", _bookPublishDate);
+        cy.get("input#Title").clear().type(_bookTitle).should("have.value", _bookTitle);
+        cy.get("input#Description").clear().type(_bookDescription).should("have.value", _bookDescription);
+        cy.get("input#PublishDate").clear().type(_bookPublishDate).should("have.value", _bookPublishDate);
         cy.get("#GenreId").then(($genreDropdown) => {
             const options = $genreDropdown.find("option").not(":first").toArray();
             const randomOption = getRandomElement(options);
@@ -45,18 +36,9 @@ function fillForm() {
 
 function searchAndVerify(testCondition = "defaultCondition") {
     cy.wrap(null).then(() => {
-        cy.get("input#Title")
-            .clear()
-            .type(_bookTitle)
-            .should("have.value", _bookTitle);
-        cy.get("input#Description")
-            .clear()
-            .type(_bookDescription)
-            .should("have.value", _bookDescription);
-        cy.get("input#Genre")
-            .clear()
-            .type(_bookGenre)
-            .should("have.value", _bookGenre);
+        cy.get("input#Title").clear().type(_bookTitle).should("have.value", _bookTitle);
+        cy.get("input#Description").clear().type(_bookDescription).should("have.value", _bookDescription);
+        cy.get("input#Genre").clear().type(_bookGenre).should("have.value", _bookGenre);
         cy.get("button.btn.btn-outline-info").click();
         if (testCondition === "create" || testCondition === "update") {
             cy.get("tr").contains(_bookTitle).click();
@@ -111,5 +93,6 @@ describe("Testing of book create, update and delete function", () => {
             cy.get("button.btn.btn-danger").click();
         });
         searchAndVerify("delete");
+        cy.reload();
     });
 })

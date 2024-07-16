@@ -20,26 +20,11 @@ function fillForm() {
         _gender = getRandomGender();
         _email = `email${_randomNumber}@gmail.com`;
         _dateOfBirthdate = getRandomDate();
-        cy.get("input#FirstName")
-            .clear()
-            .type(_firstName)
-            .should("have.value", _firstName);
-        cy.get("input#LastName")
-            .clear()
-            .type(_lastName)
-            .should("have.value", _lastName);
-        cy.get("input#Gender")
-            .clear()
-            .type(_gender)
-            .should("have.value", _gender);
-        cy.get("input#Email")
-            .clear()
-            .type(_email)
-            .should("have.value", _email);
-        cy.get("input#DateOfBirth")
-            .clear()
-            .type(_dateOfBirthdate)
-            .should("have.value", _dateOfBirthdate);
+        cy.get("input#FirstName").clear().type(_firstName).should("have.value", _firstName);
+        cy.get("input#LastName").clear().type(_lastName).should("have.value", _lastName);
+        cy.get("input#Gender").clear().type(_gender).should("have.value", _gender);
+        cy.get("input#Email").clear().type(_email).should("have.value", _email);
+        cy.get("input#DateOfBirth").clear().type(_dateOfBirthdate).should("have.value", _dateOfBirthdate);
         cy.get("#PlaceOfBirthId").then(($genreDropdown) => {
             const options = $genreDropdown.find("option").not(":first").toArray();
             const randomOption = getRandomElement(options);
@@ -57,18 +42,9 @@ function fillForm() {
 
 function searchAndVerify(testCondition = "defaultCondition") {
     cy.wrap(null).then(() => {
-        cy.get("input#FullName")
-            .clear()
-            .type(`${_firstName} ${_lastName}`)
-            .should("have.value", `${_firstName} ${_lastName}`);
-        cy.get("input#Email")
-            .clear()
-            .type(_email)
-            .should("have.value", _email);
-        cy.get("input#City")
-            .clear()
-            .type(_placeOfBirthdate)
-            .should("have.value", _placeOfBirthdate);
+        cy.get("input#FullName").clear().type(`${_firstName} ${_lastName}`).should("have.value", `${_firstName} ${_lastName}`);
+        cy.get("input#Email").clear().type(_email).should("have.value", _email);
+        cy.get("input#City").clear().type(_placeOfBirthdate).should("have.value", _placeOfBirthdate);
         cy.get("button.btn.btn-outline-info").click();
         if (testCondition === "create" || testCondition === "update") {
             cy.get("tr").contains(`${_firstName} ${_lastName}`).click();
@@ -125,5 +101,6 @@ describe("Testing of author create, update and delete function", () => {
             cy.get("button.btn.btn-danger").click();
         });
         searchAndVerify("delete");
+        cy.reload();
     });
 })

@@ -10,25 +10,13 @@ function fillForm() {
     _randomNumber = Math.floor(10000 + Math.random() * 90000);
     _cityName = `City${_randomNumber}`;
     _countryName = `Country${_randomNumber}`;
-    cy.get("input#Name")
-        .clear()
-        .type(_cityName)
-        .should("have.value", _cityName);
-    cy.get("input#Country")
-        .clear()
-        .type(_countryName)
-        .should("have.value", _countryName);
+    cy.get("input#Name").clear().type(_cityName).should("have.value", _cityName);
+    cy.get("input#Country").clear().type(_countryName).should("have.value", _countryName);
 }
 
 function searchAndVerify(testCondition = "defaultCondition") {
-    cy.get("input#Name")
-        .clear()
-        .type(_cityName)
-        .should("have.value", _cityName);
-    cy.get("input#Country")
-        .clear()
-        .type(_countryName)
-        .should("have.value", _countryName);
+    cy.get("input#Name").clear().type(_cityName).should("have.value", _cityName);
+    cy.get("input#Country").clear().type(_countryName).should("have.value", _countryName);
     cy.get("button.btn.btn-outline-info").click();
     if (testCondition === "create" || testCondition === "update") {
         cy.get("tr").contains(_cityName).click();
@@ -71,6 +59,7 @@ describe("Testing of city create, update and delete function", () => {
             cy.get("button.btn.btn-danger").click();
         });
         searchAndVerify("delete");
+        cy.reload();
     });
 
 })
