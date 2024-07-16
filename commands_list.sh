@@ -13,3 +13,5 @@ dbcc checkident ('Clients', reseed, 0);
 npm install cypress --save-dev
 npx cypress open
 npx cypress run
+npx cypress run --headed
+npx cypress run --headed --browser edge
