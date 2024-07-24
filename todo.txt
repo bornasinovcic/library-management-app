@@ -1,11 +1,11 @@
 undone:
     [] -> add angular to project
-    [] -> make login/signup available
+    [] -> make login/signup of users available
 doing:
-    [] -> check for any changes in rider (var/const, controllers)
 done:
     [] -> ajax deletion everywhere
     [] -> bring back deletion in details
+    [] -> check for any changes in rider (var/const, controllers)
     [] -> display message for no city, books, genre, authors
     [] -> refactor cypress code
     [] -> solve foreign key constraint error when deleting genre or city

@@ -33,7 +33,7 @@
 
             // Submit selected books along with the form
             $('form').submit(function () {
-                var form = $(this);
+                let form = $(this);
                 form.find('select[multiple]').val(selectedAuthors);
             });
         });

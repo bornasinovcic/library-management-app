@@ -25,7 +25,7 @@
     <label class="control-label">Date of Birth</label>
     <div class="input-group date"
         data-provide="datepicker"
-        data-date-format="@System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower()">
+        data-date-format="@Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern.ToLower()">
         <input asp-for="DateOfBirth" class="form-control" type="text" />
         <div class="input-group-addon">
             <span class="glyphicon glyphicon-th"></span>
