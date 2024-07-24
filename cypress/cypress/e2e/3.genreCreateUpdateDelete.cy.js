@@ -47,12 +47,26 @@ describe("Testing of genre create, update and delete function", () => {
         searchAndVerify("update");
     });
 
-    it("Delete already existing genre", () => {
+    it("Delete already existing genre (with ajax)", () => {
         cy.get("a.nav-link.text-dark[href='/Genre']").click();
         searchAndVerify();
         cy.contains("tr", _genreName).within(() => {
             cy.get("button.btn.btn-danger").click();
         });
+        searchAndVerify("delete");
+        cy.reload();
+    });
+
+    it("Delete already existing genre (without ajax)", () => {
+        cy.get("a.nav-link.text-dark[href='/Genre']").click();
+        cy.get("a.btn.btn-success[href='/Genre/Create']").click();
+        fillForm();
+        cy.get("input[type='submit'][value='Create'].btn.btn-outline-success.mt-2").click();
+        searchAndVerify("create");
+        cy.get("a.nav-link.text-dark[href='/Genre']").click();
+        searchAndVerify();
+        cy.get("a[href*='/Type/Details']").click();
+        cy.get("button.btn.btn-danger").click();
         searchAndVerify("delete");
         cy.reload();
     });

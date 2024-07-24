@@ -94,7 +94,7 @@ describe("Testing of author create, update and delete function", () => {
         searchAndVerify("update");
     });
 
-    it("Delete already existing author", () => {
+    it("Delete already existing author (with ajax)", () => {
         cy.get("a.nav-link.text-dark[href='/Author']").click();
         searchAndVerify();
         cy.contains("tr", `${_firstName} ${_lastName}`).within(() => {
@@ -103,4 +103,19 @@ describe("Testing of author create, update and delete function", () => {
         searchAndVerify("delete");
         cy.reload();
     });
+
+    it("Delete already existing author (without ajax)", () => {
+        cy.get("a.nav-link.text-dark[href='/Author']").click();
+        cy.get("a.btn.btn-success[href='/Writer/Add']").click();
+        fillForm();
+        cy.get("input[type='submit'][value='Create'].btn.btn-outline-success.mt-2").click();
+        searchAndVerify("create");
+        cy.get("a.nav-link.text-dark[href='/Author']").click();
+        searchAndVerify();
+        cy.get("a[href*='Author/Details']").click();
+        cy.get("button.btn.btn-danger").click();
+        searchAndVerify("delete");
+        cy.reload();
+    });
+
 })

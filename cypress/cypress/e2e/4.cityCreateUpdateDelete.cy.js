@@ -52,12 +52,26 @@ describe("Testing of city create, update and delete function", () => {
         searchAndVerify("update");
     });
 
-    it("Delete already existing city", () => {
+    it("Delete already existing city (with ajax)", () => {
         cy.get("a.nav-link.text-dark[href='/City']").click();
         searchAndVerify();
         cy.contains("tr", _cityName).within(() => {
             cy.get("button.btn.btn-danger").click();
         });
+        searchAndVerify("delete");
+        cy.reload();
+    });
+
+    it("Delete already existing city (without ajax)", () => {
+        cy.get("a.nav-link.text-dark[href='/City']").click();
+        cy.get("a.btn.btn-success[href='/Place/Add']").click();
+        fillForm();
+        cy.get("input[type='submit'][value='Create'].btn.btn-outline-success.mt-2").click();
+        searchAndVerify("create");
+        cy.get("a.nav-link.text-dark[href='/City']").click();
+        searchAndVerify();
+        cy.get("a[href*='/City/Details']").click();
+        cy.get("button.btn.btn-danger").click();
         searchAndVerify("delete");
         cy.reload();
     });

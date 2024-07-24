@@ -86,12 +86,26 @@ describe("Testing of book create, update and delete function", () => {
         searchAndVerify("update");
     });
 
-    it("Delete already existing book", () => {
+    it("Delete already existing book (with ajax)", () => {
         cy.get("a.nav-link.text-dark[href='/Book']").click();
         searchAndVerify();
         cy.contains("tr", _bookTitle).within(() => {
             cy.get("button.btn.btn-danger").click();
         });
+        searchAndVerify("delete");
+        cy.reload();
+    });
+
+    it("Delete already existing book (without ajax)", () => {
+        cy.get("a.nav-link.text-dark[href='/Book']").click();
+        cy.get("a.btn.btn-success[href='/Book/Create']").click();
+        fillForm();
+        cy.get("input[type='submit'][value='Create'].btn.btn-outline-success.mt-2").click();
+        searchAndVerify("create");
+        cy.get("a.nav-link.text-dark[href='/Book']").click();
+        searchAndVerify();
+        cy.get("a[href*='/Pages/Details']").click();
+        cy.get("button.btn.btn-danger").click();
         searchAndVerify("delete");
         cy.reload();
     });
